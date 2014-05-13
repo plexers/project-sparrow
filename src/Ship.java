@@ -2,7 +2,7 @@ import java.util.Set;
 
 public class Ship {
 	
-	private Set<UprageableShipAttribute> uprageableShipAttributes ;
+	private Set<UpgradableShipAttribute> upgradableShipAttributes ;
 	private Set<InBattleShipAttribute> inBattleShipAttributes ;
 	private Set<StandardShipAttribute> standardShipAttributes ;
 	
