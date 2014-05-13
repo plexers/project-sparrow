@@ -2,7 +2,7 @@
 public class Raid {
 	
 	private IslandManager islandManager;
-	private Pirate MyPirate;
+	private Pirate pirate;
 	
 	public boolean calculateResult(Island raidedIsland){
 		
