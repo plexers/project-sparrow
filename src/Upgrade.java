@@ -1,7 +1,7 @@
 
 public class Upgrade {
 	
-	private Set<ResourcesManager> profits;
+	private Set<UpgradableShipAttribute> profits;
 	private ResourcesManager requirements;
 
 }
