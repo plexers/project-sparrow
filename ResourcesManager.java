@@ -1,8 +1,8 @@
 
-public enum ResourcesManager {
+public class ResourcesManager {
 	
 	
-	private Set<Resources> resource;
+	private Set<Resource> resources;
 	
 	
 	

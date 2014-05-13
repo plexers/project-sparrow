@@ -1,9 +1,13 @@
 
-public enum Resource {
+public class Resource {
+	
+	
 	
 	private String name;
 	private int quantity;
-	private AvailableResources enumeration;
+	private  AvailableResources type;
+		
+
 	
 	
 }
