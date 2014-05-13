@@ -1,6 +1,6 @@
 public class UpgradableShipAttribute extends ShipAttribute {
 
-	private enum Choice {
+	public enum Choice {
 		Cannons, Crew, Armor, Health
 	}
 
