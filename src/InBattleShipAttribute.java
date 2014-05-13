@@ -1,6 +1,6 @@
 public class InBattleShipAttribute extends ShipAttribute {
 
-	private enum Choices {
+	public enum Choices {
 		WoundedCrew, LoadedCannons
 	}
 
