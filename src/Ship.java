@@ -7,6 +7,7 @@ public class Ship {
 	private Set<StandardShipAttribute> StandardShipAttribute ;
 	
 	
+	
 	public void applyUpgrade(Upgrade upgrade){
 		
 	}
