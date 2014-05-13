@@ -4,6 +4,5 @@ public class Player {
 	private Pirate pirate;
 	
 	
-	
 
 }
