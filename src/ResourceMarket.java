@@ -1,6 +1,6 @@
 
 public class ResourceMarket extends  Market {
 	
-	private ResourceMarket resourcesManager;
+	private ResourcesManager resourcesManager;
 
 }
