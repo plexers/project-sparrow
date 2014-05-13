@@ -1,9 +1,9 @@
 
 public class IslandManager {
 	
-	private List<Island> islandsList;
+	private List<Island> islands;
 	
-	public void createIslands(List<Island> islandsList){
+	public void createIslands(List<Island> islands){
 		
 	}
 
