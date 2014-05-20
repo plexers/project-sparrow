@@ -8,8 +8,8 @@ public class Game {
 		s = new Scanner(System.in);
 		System.out.print("1. Login 2. Sign-Up :");
 		int choice = Integer.parseInt(s.next(Pattern.compile("\\A[12]\\Z")));
-		
-		switch (choice) {	
+
+		switch (choice) {
 		case 1:
 			login();
 			break;
@@ -20,7 +20,7 @@ public class Game {
 			System.out.println("Wrong choice");
 			break;
 		}
-		
+
 	}
 
 	public static void main(String[] args) {
@@ -32,10 +32,28 @@ public class Game {
 		String username = s.next();
 		System.out.print("Enter password: ");
 		String password = s.next();
-		UserManager.signIn(username, password);
+		boolean signedIn = UserManager.signIn(username, password);
+		if(signedIn)
+			System.out.println("User " + username + " successfully loged in");
+		else
+			System.out.println("login error");
 	}
 
 	private static void signUp() {
+		System.out.print("Enter username:");
+		String username = s.next();
+		System.out.print("Enter password: ");
+		String password = s.next();
+		System.out.print("Enter email: ");
+		String email = s.next();
+		boolean signedUp = UserManager.signUp(username, password, email);
+		if(signedUp) {
+			System.out.println("User " + username + " created!");
+			startGame();
+		}
+		else 
+			System.out.println("signup error");
+			
 
 	}
 }
