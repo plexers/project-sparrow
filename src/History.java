@@ -2,9 +2,9 @@ import java.util.List;
 
 
 public class History {
-	List<List<Action>> historyList;
+	List<Turn> historyList;
 	
-	public void pushTurn(List<Action> turnActions) {
+	public void pushTurn(Turn turn) {
 		
 	}
 }

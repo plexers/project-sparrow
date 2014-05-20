@@ -8,7 +8,7 @@ public class ResourcesManager {
 	
 	
 	
-	public void changeResourceBy(AvailableResources resource,int offset){
+	public void changeResourceBy(Resource.Choices resource,int offset){
 	
 	}
 
