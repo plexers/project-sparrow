@@ -16,4 +16,11 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.ektorp</groupId>
+  		<artifactId>org.ektorp</artifactId>
+  		<version>1.4.2</version>
+  	</dependency>
+  </dependencies>
 </project>
