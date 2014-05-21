@@ -1,6 +1,8 @@
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import biz.plexers.sparrow.db.exceptions.SignInException;
+
 public class Game {
 	private static Scanner s;
 
@@ -32,11 +34,14 @@ public class Game {
 		String username = s.next();
 		System.out.print("Enter password: ");
 		String password = s.next();
-		boolean signedIn = UserManager.signIn(username, password);
+		boolean signedIn = false;
+		try {
+			signedIn = UserManager.signIn(username, password);
+		} catch (SignInException e) {
+			System.out.println(e.getMessage());
+		}
 		if(signedIn)
 			System.out.println("User " + username + " successfully loged in");
-		else
-			System.out.println("login error");
 	}
 
 	private static void signUp() {
