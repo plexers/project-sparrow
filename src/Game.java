@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import biz.plexers.sparrow.db.exceptions.SignInException;
+import biz.plexers.sparrow.db.exceptions.SignUpException;
 
 public class Game {
 	private static Scanner s;
@@ -51,13 +52,16 @@ public class Game {
 		String password = s.next();
 		System.out.print("Enter email: ");
 		String email = s.next();
-		boolean signedUp = UserManager.signUp(username, password, email);
+		boolean signedUp = false;
+		try {
+			signedUp = UserManager.signUp(username, password, email);
+		} catch (SignUpException e) {
+			System.out.println(e.getMessage());
+		}
 		if(signedUp) {
 			System.out.println("User " + username + " created!");
 			startGame();
 		}
-		else 
-			System.out.println("signup error");
 			
 
 	}

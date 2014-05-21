@@ -1,5 +1,6 @@
 import biz.plexers.sparrow.db.DbManager;
 import biz.plexers.sparrow.db.exceptions.SignInException;
+import biz.plexers.sparrow.db.exceptions.SignUpException;
 
 public class UserManager {
 	private static Player user = null;
@@ -16,8 +17,9 @@ public class UserManager {
 		return false;
 	}
 
-	public static boolean signUp(String username, String password, String email) {
-		// TODO Insert user to couch
-		return true;
+	public static boolean signUp(String username, String password, String email)
+			throws SignUpException {
+		return DbManager.signUp(username, password, email);
+
 	}
 }
