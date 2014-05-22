@@ -1,5 +1,6 @@
 package biz.plexers.sparrow.db;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 import org.ektorp.CouchDbConnector;
@@ -9,10 +10,16 @@ import org.ektorp.http.HttpClient;
 import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbInstance;
 
+import biz.plexers.sparrow.core.Pirate;
 import biz.plexers.sparrow.db.exceptions.SignInException;
 import biz.plexers.sparrow.db.exceptions.SignUpException;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -91,6 +98,19 @@ public class DbManager {
 				+ username);
 
 		return jsonUser;
+	}
+
+	public static Pirate readPirate(String username) {
+		JsonNode jsonUser = getUser(username);
+
+		JsonNode jsonPirate = jsonUser.findPath("pirate");
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			return objectMapper.readValue(jsonPirate.toString(), Pirate.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
