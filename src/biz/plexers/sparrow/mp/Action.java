@@ -1,3 +1,4 @@
+package biz.plexers.sparrow.mp;
 
 public class Action {
 	private String name;

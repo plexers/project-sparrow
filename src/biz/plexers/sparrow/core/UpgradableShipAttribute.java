@@ -1,3 +1,4 @@
+package biz.plexers.sparrow.core;
 public class UpgradableShipAttribute extends ShipAttribute {
 
 	public enum Choice {

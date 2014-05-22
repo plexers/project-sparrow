@@ -1,3 +1,4 @@
+package biz.plexers.sparrow.core;
 import biz.plexers.sparrow.db.DbManager;
 import biz.plexers.sparrow.db.exceptions.SignInException;
 import biz.plexers.sparrow.db.exceptions.SignUpException;
