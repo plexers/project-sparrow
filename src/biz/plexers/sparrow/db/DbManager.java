@@ -62,7 +62,7 @@ public class DbManager {
 
 	private static HttpClient getClient() {
 		HttpClient client = null;
-		if(DbManager.client != null)
+		if (DbManager.client != null)
 			return DbManager.client;
 		try {
 			client = new StdHttpClient.Builder().url(dbURL).build();
@@ -82,6 +82,15 @@ public class DbManager {
 		user.put("password", password);
 		user.put("email", email);
 		return user;
+	}
+
+	private static JsonNode getUser(String username) {
+		CouchDbConnector usersDb = getUsersDb();
+
+		JsonNode jsonUser = usersDb.get(JsonNode.class, "org.couchdb.user:"
+				+ username);
+
+		return jsonUser;
 	}
 
 }
