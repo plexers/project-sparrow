@@ -11,7 +11,8 @@ public class UserManager {
 		if (user == null) {
 			boolean signedIn = DbManager.signIn(username, password);
 			if (signedIn) {
-				user = new Player(username);
+				Pirate pirate = DbManager.readPirate();
+				user = new Player(username, pirate);
 				return true;
 			}
 		}
@@ -22,5 +23,9 @@ public class UserManager {
 			throws SignUpException {
 		return DbManager.signUp(username, password, email);
 
+	}
+	
+	public static boolean isFirstTIme() {
+		return user.getPirate() == null;
 	}
 }

@@ -24,6 +24,7 @@ public class DbManager {
 	private static CouchDbConnector db = null;
 	private static String dbURL = "http://db.plexers.biz:96";
 	private static String dbName = "sol";
+	private static String username = null;
 
 	public static boolean signIn(String username, String password)
 			throws SignInException {
@@ -40,6 +41,7 @@ public class DbManager {
 			} catch (DbAccessException e) {
 				throw new SignInException("Invalid Username or Password!");
 			}
+			DbManager.username = username;
 			return true;
 		}
 		throw new SignInException("You are already signed in!");
@@ -96,7 +98,7 @@ public class DbManager {
 		return jsonUser;
 	}
 
-	public static Pirate readPirate(String username) {
+	public static Pirate readPirate() {
 		JsonNode jsonUser = getUser(username);
 
 		JsonNode jsonPirate = jsonUser.findPath("pirate");
