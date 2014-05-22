@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import biz.plexers.sparrow.core.UserManager;
 import biz.plexers.sparrow.db.exceptions.SignInException;
 import biz.plexers.sparrow.db.exceptions.SignUpException;
 

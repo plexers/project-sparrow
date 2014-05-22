@@ -1,3 +1,4 @@
+package biz.plexers.sparrow.core;
 
 public class Player {
 	
