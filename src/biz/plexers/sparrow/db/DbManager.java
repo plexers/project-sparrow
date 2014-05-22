@@ -44,20 +44,32 @@ public class DbManager {
 
 	public static boolean signUp(String username, String password, String email)
 			throws SignUpException {
-		HttpClient client = null;
-		try {
-			client = new StdHttpClient.Builder().url(dbURL).build();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-		CouchDbInstance dbInstance = new StdCouchDbInstance(client);
-		CouchDbConnector usersDb = dbInstance.createConnector("_users", false);
+		CouchDbConnector usersDb = getUsersDb();
 		try {
 			usersDb.create(getUser(username, password, email));
 		} catch (Exception e) {
 			throw new SignUpException("Username not Available");
 		}
 		return false;
+	}
+
+	private static CouchDbConnector getUsersDb() {
+		HttpClient client = getClient();
+		CouchDbInstance dbInstance = new StdCouchDbInstance(client);
+		CouchDbConnector usersDb = dbInstance.createConnector("_users", false);
+		return usersDb;
+	}
+
+	private static HttpClient getClient() {
+		HttpClient client = null;
+		if(DbManager.client != null)
+			return DbManager.client;
+		try {
+			client = new StdHttpClient.Builder().url(dbURL).build();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		return client;
 	}
 
 	private static JsonNode getUser(String username, String password,
