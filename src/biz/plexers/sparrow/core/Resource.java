@@ -1,4 +1,5 @@
 package biz.plexers.sparrow.core;
+
 public class Resource {
 
 	private String name;
@@ -10,4 +11,11 @@ public class Resource {
 		Lumber, Cannons, Crew, Metal
 	}
 
+	public void changeQ(int offset) {
+
+		if (quantity > offset) {
+			quantity += offset;
+		}
+
+	}
 }
