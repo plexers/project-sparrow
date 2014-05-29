@@ -1,4 +1,5 @@
 package biz.plexers.sparrow.core;
+
 import biz.plexers.sparrow.db.DbManager;
 import biz.plexers.sparrow.db.exceptions.SignInException;
 import biz.plexers.sparrow.db.exceptions.SignUpException;
@@ -12,8 +13,9 @@ public class UserManager {
 			boolean signedIn = DbManager.signIn(username, password);
 			if (signedIn) {
 				Pirate pirate = DbManager.readPirate();
-				//TODO Remove this testing code line
-				System.out.println(pirate.getExperience() + " " + pirate.getGold()) ;
+				// TODO Remove this testing code line
+				System.out.println(pirate.getExperience() + " "
+						+ pirate.getGold());
 				user = new Player(username, pirate);
 				return true;
 			}
@@ -26,8 +28,12 @@ public class UserManager {
 		return DbManager.signUp(username, password, email);
 
 	}
-	
+
 	public static boolean isFirstTIme() {
 		return user.getPirate().getShip() == null;
+	}
+
+	public static Pirate getPirate() {
+		return user.getPirate();
 	}
 }

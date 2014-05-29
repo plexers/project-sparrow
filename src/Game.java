@@ -87,7 +87,9 @@ public class Game {
 	}
 	
 	private static void singlePlayer() {
-		// TODO Auto-generated method stub
+		if(UserManager.isFirstTIme()); {
+			
+		}
 
 	}
 	
