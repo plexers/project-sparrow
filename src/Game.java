@@ -42,8 +42,10 @@ public class Game {
 		} catch (SignInException e) {
 			System.out.println(e.getMessage());
 		}
-		if(signedIn)
+		if(signedIn) {
 			System.out.println("User " + username + " successfully loged in");
+			mainWindow();
+		}
 	}
 
 	private static void signUp() {
@@ -64,6 +66,33 @@ public class Game {
 			startGame();
 		}
 			
+
+	}
+	
+	private static void mainWindow() {
+		System.out.print("1. Single Player 2. Multiplayer :");
+		int choice = Integer.parseInt(s.next());
+
+		switch (choice) {
+		case 1:
+			singlePlayer();
+			break;
+		case 2:
+			multiPlayer();
+			break;
+		default:
+			System.out.println("Wrong choice");
+			break;
+		}
+	}
+	
+	private static void singlePlayer() {
+		// TODO Auto-generated method stub
+
+	}
+	
+	private static void multiPlayer() {
+		// TODO Auto-generated method stub
 
 	}
 }

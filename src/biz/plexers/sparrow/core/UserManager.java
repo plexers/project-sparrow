@@ -12,6 +12,8 @@ public class UserManager {
 			boolean signedIn = DbManager.signIn(username, password);
 			if (signedIn) {
 				Pirate pirate = DbManager.readPirate();
+				//TODO Remove this testing code line
+				System.out.println(pirate.getExperience() + " " + pirate.getGold()) ;
 				user = new Player(username, pirate);
 				return true;
 			}
