@@ -1,9 +1,14 @@
 package biz.plexers.sparrow.core;
 
 import org.ektorp.support.CouchDbDocument;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 //TODO Change serialization method
 public class Pirate extends CouchDbDocument{
-	
+	@JsonIgnore
+	public Ship getShip() {
+		return ship;
+	}
 	public double getExperience() {
 		return experience;
 	}

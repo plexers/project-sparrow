@@ -28,6 +28,6 @@ public class UserManager {
 	}
 	
 	public static boolean isFirstTIme() {
-		return user.getPirate() == null;
+		return user.getPirate().getShip() == null;
 	}
 }
