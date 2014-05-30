@@ -100,7 +100,7 @@ public class Game {
 
 			int choice = Game.s.nextInt();
 			try {
-				shipMarket.buyShip(choice);
+				shipMarket.buyShip(choice-1);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
