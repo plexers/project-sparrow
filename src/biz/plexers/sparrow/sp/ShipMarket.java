@@ -3,13 +3,14 @@ package biz.plexers.sparrow.sp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Map;
 
 import biz.plexers.sparrow.core.Pirate;
 import biz.plexers.sparrow.core.Ship;
 import biz.plexers.sparrow.core.UserManager;
 import biz.plexers.sparrow.db.DbManager;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class ShipMarket extends Market {
 	List<Ship> ships;
@@ -17,13 +18,6 @@ public class ShipMarket extends Market {
 	public ShipMarket() {
 		super();
 		ships = Arrays.asList(new Ship[]{new Ship(240, "Marina"), new Ship(400, "Giorgos")});
-	}
-	private ShipMarket(List<Ship> ships) {
-		this.ships = ships;
-	}
-	@JsonCreator
-	public static ShipMarket factory(List<Ship> ships) {
-		return new ShipMarket(ships);
 	}
 
 	public void disassembleShip() {
@@ -54,5 +48,12 @@ public class ShipMarket extends Market {
 		return Collections.unmodifiableList(ships);
 	}
 	
+	private ShipMarket(Map<String, Object> props) {
+		ships = (List<Ship>) props.get("ships");
+	}
+	@JsonCreator
+	public static ShipMarket factory(Map<String, Object> props) {
+		return new ShipMarket(props);
+	}
 	
 }
