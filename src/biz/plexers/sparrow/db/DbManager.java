@@ -110,5 +110,13 @@ public class DbManager {
 		}
 		return null;
 	}
+	
+	public static void save(Object o) {
+		db.create(o);
+	}
+	
+	public static Object read(Class<?> clz, String id) {
+		return db.get(clz, id);
+	}
 
 }

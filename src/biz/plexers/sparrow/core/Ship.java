@@ -2,7 +2,9 @@ package biz.plexers.sparrow.core;
 
 import java.util.Set;
 
-public class Ship {
+import org.ektorp.support.CouchDbDocument;
+
+public class Ship extends CouchDbDocument{
 
 	private Set<UpgradableShipAttribute> upgradableShipAttributes;
 	private Set<InBattleShipAttribute> inBattleShipAttributes;
@@ -12,6 +14,12 @@ public class Ship {
 
 	public String getName() {
 		return name;
+	}
+
+	public Ship(double goldValue, String name) {
+		super();
+		this.goldValue = goldValue;
+		this.name = name;
 	}
 
 	public void applyUpgrade(Upgrade upgrade) {
