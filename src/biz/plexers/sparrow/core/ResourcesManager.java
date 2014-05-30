@@ -15,4 +15,18 @@ public class ResourcesManager {
 		}
 	}
 
+	public void consume(ResourcesManager other) {
+
+		for (Resource.Choices choice : Resource.Choices.values()) {
+			Resource thisTempRes = resources.get(choice);
+			Resource otherTempRes = resources.get(choice);
+
+			if (thisTempRes != null) {
+				thisTempRes.consume(otherTempRes);
+			} else {
+				resources.put(choice, otherTempRes);
+			}
+		}
+	}
+
 }
