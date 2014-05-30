@@ -29,8 +29,8 @@ public class UserManager {
 
 	}
 
-	public static boolean isFirstTIme() {
-		return user.getPirate().getShip() == null;
+	public static boolean shipExists() {
+		return user.getPirate().hasShip();
 	}
 
 	public static Pirate getPirate() {

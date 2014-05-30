@@ -90,8 +90,7 @@ public class Game {
 	}
 
 	private static void singlePlayer() {
-		if (UserManager.isFirstTIme())
-			;
+		if (UserManager.shipExists())
 		{
 			ShipMarket shipMarket = ShipMarket.getInstance();
 			List<Ship> ships = shipMarket.getShips();

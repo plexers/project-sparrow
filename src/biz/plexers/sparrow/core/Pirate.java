@@ -48,6 +48,22 @@ public class Pirate extends CouchDbDocument {
 		throw new Exception("Error! You already have a ship!");
 	}
 
+	public boolean hasShip() {
+		return ship == null;
+	}
+
+	public double getExperience() {
+		return experience;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public double getGold() {
+		return gold;
+	}
+
 	private Pirate(Map<String, Object> props) {
 		experience = (double) props.get("experience");
 		name = (String) props.get("name");
