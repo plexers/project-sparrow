@@ -1,9 +1,12 @@
 package biz.plexers.sparrow.core;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.ektorp.support.CouchDbDocument;
+
+import biz.plexers.sparrow.sp.ShipMarket;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -27,6 +30,22 @@ public class Pirate extends CouchDbDocument {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean buyShip(ShipMarket shipMarket, int shipIndex)
+			throws Exception {
+		List<Ship> ships = shipMarket.getShips();
+		Ship ship = ships.get(shipIndex);
+
+		if (this.ship == null) {
+			double dept = -ship.getGoldValue();
+			if (this.changeGoldBy(dept)) {
+				this.ship = ship;
+				return true;
+			}
+			throw new Exception("Error! Insufficient gold to buy this ship!");
+		}
+		throw new Exception("Error! You already have a ship!");
 	}
 
 	private Pirate(Map<String, Object> props) {

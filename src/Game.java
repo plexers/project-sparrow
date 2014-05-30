@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import biz.plexers.sparrow.core.Pirate;
 import biz.plexers.sparrow.core.Ship;
 import biz.plexers.sparrow.core.UserManager;
 import biz.plexers.sparrow.db.exceptions.SignInException;
@@ -45,7 +46,7 @@ public class Game {
 		} catch (SignInException e) {
 			System.out.println(e.getMessage());
 		}
-		if(signedIn) {
+		if (signedIn) {
 			System.out.println("User " + username + " successfully loged in");
 			mainWindow();
 		}
@@ -64,14 +65,13 @@ public class Game {
 		} catch (SignUpException e) {
 			System.out.println(e.getMessage());
 		}
-		if(signedUp) {
+		if (signedUp) {
 			System.out.println("User " + username + " created!");
 			startGame();
 		}
-			
 
 	}
-	
+
 	private static void mainWindow() {
 		System.out.print("1. Single Player 2. Multiplayer :");
 		int choice = Integer.parseInt(s.next());
@@ -88,26 +88,29 @@ public class Game {
 			break;
 		}
 	}
-	
+
 	private static void singlePlayer() {
-		if(UserManager.isFirstTIme()); {
+		if (UserManager.isFirstTIme())
+			;
+		{
 			ShipMarket shipMarket = ShipMarket.getInstance();
 			List<Ship> ships = shipMarket.getShips();
 			for (int i = 0; i < ships.size(); i++) {
 				Ship s = ships.get(i);
-				System.out.println((i+1)+". "+s.getName());
+				System.out.println((i + 1) + ". " + s.getName());
 			}
 
 			int choice = Game.s.nextInt();
 			try {
-				shipMarket.buyShip(choice-1);
+				Pirate pirate = UserManager.getPirate();
+				pirate.buyShip(shipMarket, choice - 1);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
 		}
 
 	}
-	
+
 	private static void multiPlayer() {
 		// TODO Auto-generated method stub
 
