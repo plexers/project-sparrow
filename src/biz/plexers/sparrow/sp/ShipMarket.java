@@ -1,5 +1,6 @@
 package biz.plexers.sparrow.sp;
 
+import java.util.Collections;
 import java.util.List;
 
 import biz.plexers.sparrow.core.Pirate;
@@ -27,4 +28,15 @@ public class ShipMarket extends Market {
 		}
 		throw new Exception("Error! You already have a ship!");
 	}
+	
+	public static ShipMarket getInstance() {
+		//TODO Add implementation
+		return null;
+	}
+
+	public List<Ship> getShips() {
+		return Collections.unmodifiableList(ships);
+	}
+	
+	
 }

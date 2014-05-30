@@ -1,9 +1,12 @@
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import biz.plexers.sparrow.core.Ship;
 import biz.plexers.sparrow.core.UserManager;
 import biz.plexers.sparrow.db.exceptions.SignInException;
 import biz.plexers.sparrow.db.exceptions.SignUpException;
+import biz.plexers.sparrow.sp.ShipMarket;
 
 public class Game {
 	private static Scanner s;
@@ -88,7 +91,19 @@ public class Game {
 	
 	private static void singlePlayer() {
 		if(UserManager.isFirstTIme()); {
-			
+			ShipMarket shipMarket = ShipMarket.getInstance();
+			List<Ship> ships = shipMarket.getShips();
+			for (int i = 0; i < ships.size(); i++) {
+				Ship s = ships.get(i);
+				System.out.println((i+1)+". "+s.getName());
+			}
+
+			int choice = Game.s.nextInt();
+			try {
+				shipMarket.buyShip(choice);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
 
 	}
