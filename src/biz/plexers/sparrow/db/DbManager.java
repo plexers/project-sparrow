@@ -11,6 +11,7 @@ import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbInstance;
 
 import biz.plexers.sparrow.core.Pirate;
+import biz.plexers.sparrow.core.UserManager;
 import biz.plexers.sparrow.db.exceptions.SignInException;
 import biz.plexers.sparrow.db.exceptions.SignUpException;
 
@@ -39,6 +40,7 @@ public class DbManager {
 			try {
 				db = dbInstance.createConnector(dbName, true);
 			} catch (DbAccessException e) {
+				client = null;
 				throw new SignInException("Invalid Username or Password!");
 			}
 			DbManager.username = username;
@@ -110,11 +112,24 @@ public class DbManager {
 		}
 		return null;
 	}
-	
+
+	public static void savePirate() {
+		JsonNode jsonUser = getUser(username);
+
+		if (jsonUser.isObject()) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			Pirate pirate = UserManager.getPirate();
+			JsonNode jsonPirate = objectMapper.valueToTree(pirate);
+
+			ObjectNode objectUser = (ObjectNode) jsonUser;
+			objectUser.put("pirate", jsonPirate);
+		}
+	}
+
 	public static void save(Object o) {
 		db.create(o);
 	}
-	
+
 	public static Object read(Class<?> clz, String id) {
 		return db.get(clz, id);
 	}
