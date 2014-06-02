@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.ektorp.support.CouchDbDocument;
-
+import biz.plexers.sparrow.db.Arggg;
 import biz.plexers.sparrow.sp.ResourceMarket;
 import biz.plexers.sparrow.sp.ShipMarket;
 
@@ -17,7 +16,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize(using = Pirate.Serializer.class)
-public class Pirate extends CouchDbDocument {
+public class Pirate extends Arggg {
 
 	private double experience;
 	private ResourcesManager resourcesManager;

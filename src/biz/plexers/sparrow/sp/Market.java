@@ -1,10 +1,9 @@
 package biz.plexers.sparrow.sp;
-import org.ektorp.support.CouchDbDocument;
-
 import biz.plexers.sparrow.core.Pirate;
+import biz.plexers.sparrow.db.Arggg;
 
 
-public abstract class Market extends CouchDbDocument{
+public abstract class Market extends Arggg{
 	
 	private Pirate pirate;
 

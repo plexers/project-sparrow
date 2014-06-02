@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
-import org.ektorp.support.CouchDbDocument;
+import biz.plexers.sparrow.db.Arggg;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize(using = Ship.Serializer.class)
-public class Ship extends CouchDbDocument {
+public class Ship extends Arggg {
 
 	private Set<UpgradableShipAttribute> upgradableShipAttributes;
 	private Set<InBattleShipAttribute> inBattleShipAttributes;
