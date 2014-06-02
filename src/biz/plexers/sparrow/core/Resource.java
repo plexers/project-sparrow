@@ -16,6 +16,7 @@ public class Resource {
 	private String name;
 	private int quantity;
 	private Choices type;
+	private double unitPrice;
 
 	public enum Choices {
 
@@ -64,5 +65,9 @@ public class Resource {
 
 		}
 
+	}
+
+	public double getTotalPrice() {
+		return unitPrice * quantity;
 	}
 }

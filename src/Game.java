@@ -3,14 +3,18 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import biz.plexers.sparrow.core.Pirate;
+import biz.plexers.sparrow.core.Resource;
+import biz.plexers.sparrow.core.ResourcesManager;
 import biz.plexers.sparrow.core.Ship;
 import biz.plexers.sparrow.core.UserManager;
 import biz.plexers.sparrow.db.exceptions.SignInException;
 import biz.plexers.sparrow.db.exceptions.SignUpException;
+import biz.plexers.sparrow.sp.ResourceMarket;
 import biz.plexers.sparrow.sp.ShipMarket;
 
 public class Game {
 	private static Scanner s;
+	private static Pirate pirate;
 
 	public static void startGame() {
 		s = new Scanner(System.in);
@@ -90,8 +94,9 @@ public class Game {
 	}
 
 	private static void singlePlayer() {
-		if (UserManager.shipExists())
-		{
+		pirate = UserManager.getPirate();
+
+		if (UserManager.shipExists()) {
 			ShipMarket shipMarket = ShipMarket.getInstance();
 			List<Ship> ships = shipMarket.getShips();
 			for (int i = 0; i < ships.size(); i++) {
@@ -101,12 +106,74 @@ public class Game {
 
 			int choice = Game.s.nextInt();
 			try {
-				Pirate pirate = UserManager.getPirate();
 				pirate.buyShip(shipMarket, choice - 1);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
+
+			System.out.print("Give a name for your pirate: ");
+			String name = s.next();
+			pirate.setName(name);
+			System.out.println("Successfully created your pirate !!!");
 		}
+
+		singlePlayerChoices();
+	}
+
+	private static void singlePlayerChoices() {
+		System.out
+				.print("1. Raid Island 2. Buy Ship  3. Buy Resources 4. Upgrade Ship :");
+		int choice = Integer.parseInt(s.next());
+
+		switch (choice) {
+		case 1:
+			raidIsland();
+			break;
+		case 2:
+			buyShip();
+			break;
+		case 3:
+			buyResources();
+			break;
+		case 4:
+			upgradeShip();
+			break;
+		default:
+			System.out.println("Wrong choice");
+			break;
+		}
+	}
+
+	private static void raidIsland() {
+
+	}
+
+	private static void buyShip() {
+
+	}
+
+	private static void buyResources() {
+
+		ResourceMarket resourceMarket = ResourceMarket.getInstance();
+		ResourcesManager marketResourcesManager = resourceMarket
+				.getResourcesManager();
+
+		System.out.println("Enter quantity for each resource :");
+		for (Resource.Choices choice : Resource.Choices.values()) {
+			System.out.print(choice + " :");
+			int q = s.nextInt();
+			marketResourcesManager.changeResourceBy(choice, q);
+		}
+		try {
+			pirate.buyResources(resourceMarket);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		singlePlayerChoices();
+
+	}
+
+	private static void upgradeShip() {
 
 	}
 
