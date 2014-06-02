@@ -128,6 +128,7 @@ public class Game {
 				System.out.println("Wrong choice");
 				break;
 			}
+			
 
 		} else {
 			System.out.println("You have to get a ship in single player.");
@@ -148,6 +149,7 @@ public class Game {
 		
 		// TODO: couchdb join battle #choice
 
+		
 	}
 
 	private static void createMpBattle() {
