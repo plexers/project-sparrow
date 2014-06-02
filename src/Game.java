@@ -90,6 +90,8 @@ public class Game {
 	}
 
 	private static void singlePlayer() {
+		Pirate pirate = UserManager.getPirate();
+		
 		if (UserManager.shipExists())
 		{
 			ShipMarket shipMarket = ShipMarket.getInstance();
@@ -101,11 +103,15 @@ public class Game {
 
 			int choice = Game.s.nextInt();
 			try {
-				Pirate pirate = UserManager.getPirate();
 				pirate.buyShip(shipMarket, choice - 1);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
+			
+			System.out.print("Give a name for your pirate: ");
+			String name = s.next();
+			pirate.setName(name);
+			System.out.println("Successfully created your pirate !!!");
 		}
 
 	}

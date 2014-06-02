@@ -60,6 +60,10 @@ public class Pirate extends CouchDbDocument {
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public double getGold() {
 		return gold;
 	}
