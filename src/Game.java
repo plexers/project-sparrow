@@ -8,6 +8,7 @@ import biz.plexers.sparrow.core.Ship;
 import biz.plexers.sparrow.core.UserManager;
 import biz.plexers.sparrow.db.exceptions.SignInException;
 import biz.plexers.sparrow.db.exceptions.SignUpException;
+import biz.plexers.sparrow.mp.Battle;
 import biz.plexers.sparrow.mp.BattleManager;
 import biz.plexers.sparrow.sp.ShipMarket;
 
@@ -148,12 +149,15 @@ public class Game {
 		int choice = Integer.parseInt(s.next());
 		
 		// TODO: couchdb join battle #choice
-
+		Battle battle = new Battle(); // temporary object - return from couchDB
+		battle.addPlayer(UserManager.getUser());
+		// TODO: couchDB send battle object
 		
 	}
 
 	private static void createMpBattle() {
-		// TODO Auto-generated method stub
-
+		Battle battle = new Battle(); // temporary object - return from couchDB
+		battle.addPlayer(UserManager.getUser());
+		// TODO: couchDB send battle object
 	}
 }
