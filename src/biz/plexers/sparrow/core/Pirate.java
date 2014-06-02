@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.ektorp.support.CouchDbDocument;
 
+import biz.plexers.sparrow.sp.ResourceMarket;
 import biz.plexers.sparrow.sp.ShipMarket;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -46,6 +47,22 @@ public class Pirate extends CouchDbDocument {
 			throw new Exception("Error! Insufficient gold to buy this ship!");
 		}
 		throw new Exception("Error! You already have a ship!");
+	}
+
+	public boolean buyResources(ResourceMarket resourceMarket) throws Exception {
+
+		if (pay(resourceMarket.getTotalCost())) {
+			this.resourcesManager.consume(resourceMarket.getResourcesManager());
+			return true;
+		} else {
+			throw new Exception("Insufficient gold!");
+		}
+
+	}
+
+	public boolean pay(double money) {
+
+		return changeGoldBy(-money);
 	}
 
 	public boolean hasShip() {

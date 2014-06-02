@@ -1,6 +1,7 @@
 package biz.plexers.sparrow.core;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class ResourcesManager {
 
 	private HashMap<Resource.Choices, Resource> resources;
+
+	public Map<Resource.Choices, Resource> getResources() {
+		return Collections.unmodifiableMap(resources);
+	}
 
 	public void changeResourceBy(Resource.Choices resourceType, int offset) {
 
