@@ -113,9 +113,46 @@ public class Game {
 			pirate.setName(name);
 			System.out.println("Successfully created your pirate !!!");
 		}
+		
+		System.out.print("1. Raid Island 2. Buy Ship  3. Buy Resources 4. Upgrade Ship :");
+		int choice = Integer.parseInt(s.next());
 
+		switch (choice) {
+		case 1:
+			raidIsland();
+			break;
+		case 2:
+			buyShip();
+			break;
+		case 3:
+			buyResources();
+			break;
+		case 4:
+			upgradeShip();
+			break;
+		default:
+			System.out.println("Wrong choice");
+			break;
+		}
+	}
+	
+	
+	private static void raidIsland(){
+		
 	}
 
+	private static void buyShip(){
+		
+	}
+	
+	private static void buyResources(){
+		
+	}
+	
+	private static void upgradeShip(){
+		
+	}
+	
 	private static void multiPlayer() {
 		// TODO Auto-generated method stub
 
