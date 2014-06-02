@@ -123,6 +123,7 @@ public class DbManager {
 
 			ObjectNode objectUser = (ObjectNode) jsonUser;
 			objectUser.put("pirate", jsonPirate);
+			getUsersDb().update(objectUser);
 		}
 	}
 
