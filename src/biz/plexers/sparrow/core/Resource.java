@@ -24,7 +24,7 @@ public class Resource {
 
 	public void changeQ(int offset) {
 
-		if (quantity > offset) {
+		if (quantity + offset >= 0) {
 			quantity += offset;
 		}
 
