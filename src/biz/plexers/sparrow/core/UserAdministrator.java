@@ -1,3 +1,4 @@
+package biz.plexers.sparrow.core;
 
 public class UserAdministrator {
 	public void deleteUser(Player user) {
