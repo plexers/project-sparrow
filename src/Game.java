@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -10,6 +11,8 @@ import biz.plexers.sparrow.core.UserManager;
 import biz.plexers.sparrow.db.exceptions.SignInException;
 import biz.plexers.sparrow.db.exceptions.SignUpException;
 import biz.plexers.sparrow.sp.ResourceMarket;
+import biz.plexers.sparrow.mp.Battle;
+import biz.plexers.sparrow.mp.BattleManager;
 import biz.plexers.sparrow.sp.ShipMarket;
 
 public class Game {
@@ -51,6 +54,7 @@ public class Game {
 			System.out.println(e.getMessage());
 		}
 		if (signedIn) {
+			pirate = UserManager.getPirate();
 			System.out.println("User " + username + " successfully loged in");
 			mainWindow();
 		}
@@ -94,8 +98,6 @@ public class Game {
 	}
 
 	private static void singlePlayer() {
-		pirate = UserManager.getPirate();
-
 		if (UserManager.shipExists()) {
 			ShipMarket shipMarket = ShipMarket.getInstance();
 			List<Ship> ships = shipMarket.getShips();
@@ -178,7 +180,51 @@ public class Game {
 	}
 
 	private static void multiPlayer() {
-		// TODO Auto-generated method stub
+		if (UserManager.shipExists()) {
 
+			System.out.print("1. Create Battle 2. Join Battle :");
+			int choice = Integer.parseInt(s.next());
+
+			switch (choice) {
+			case 1:
+				createMpBattle();
+				break;
+			case 2:
+				joinMpBattle();
+				break;
+			default:
+				System.out.println("Wrong choice");
+				break;
+			}
+			
+
+		} else {
+			System.out.println("You have to get a ship in single player.");
+		}
+
+	}
+
+	private static void joinMpBattle() {
+		ArrayList<String> openBattles = (ArrayList<String>) BattleManager
+				.getBattleList();
+		System.out.print("Available Battles :");
+
+		for (int i = 0; i < openBattles.size(); i++) {
+			System.out.println(i + ": " + openBattles.get(i));
+		}
+		System.out.print("Choose Battle :");
+		int choice = Integer.parseInt(s.next());
+		
+		// TODO: couchdb join battle #choice
+		Battle battle = new Battle(); // temporary object - return from couchDB
+		battle.addPlayer(UserManager.getUser());
+		// TODO: couchDB send battle object
+		
+	}
+
+	private static void createMpBattle() {
+		Battle battle = new Battle(); // temporary object - return from couchDB
+		battle.addPlayer(UserManager.getUser());
+		// TODO: couchDB send battle object
 	}
 }

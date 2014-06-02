@@ -36,4 +36,8 @@ public class UserManager {
 	public static Pirate getPirate() {
 		return user.getPirate();
 	}
+
+	public static Player getUser() {
+		return user;
+	}
 }
