@@ -56,7 +56,7 @@ public class Ship extends CouchDbDocument {
 		return new Ship(props);
 	}
 
-	public class Serializer extends JsonSerializer<Ship> {
+	public static class Serializer extends JsonSerializer<Ship> {
 
 		@Override
 		public void serialize(Ship value, JsonGenerator jgen,

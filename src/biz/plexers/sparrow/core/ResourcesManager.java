@@ -54,14 +54,14 @@ public class ResourcesManager {
 		return new ResourcesManager(props);
 	}
 
-	public class Serializer extends JsonSerializer<ResourcesManager> {
+	public static class Serializer extends JsonSerializer<ResourcesManager> {
 
 		@Override
 		public void serialize(ResourcesManager value, JsonGenerator jgen,
 				SerializerProvider provider) throws IOException,
 				JsonProcessingException {
 			jgen.writeStartObject();
-			jgen.writeObjectField("resources", resources);
+			jgen.writeObjectField("resources", value.resources);
 			jgen.writeEndObject();
 
 		}

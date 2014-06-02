@@ -51,7 +51,7 @@ public class Resource {
 		return new Resource(props);
 	}
 
-	public class Serializer extends JsonSerializer<Resource> {
+	public static class Serializer extends JsonSerializer<Resource> {
 
 		@Override
 		public void serialize(Resource value, JsonGenerator jgen,

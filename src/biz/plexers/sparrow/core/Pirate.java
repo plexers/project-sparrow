@@ -99,7 +99,7 @@ public class Pirate extends CouchDbDocument {
 		return new Pirate(props);
 	}
 
-	public class Serializer extends JsonSerializer<Pirate> {
+	public static class Serializer extends JsonSerializer<Pirate> {
 
 		@Override
 		public void serialize(Pirate value, JsonGenerator jgen,
