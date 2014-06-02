@@ -98,7 +98,7 @@ public class Game {
 	}
 
 	private static void singlePlayer() {
-		if (UserManager.shipExists()) {
+		if (!UserManager.shipExists()) {
 			ShipMarket shipMarket = ShipMarket.getInstance();
 			List<Ship> ships = shipMarket.getShips();
 			for (int i = 0; i < ships.size(); i++) {

@@ -66,7 +66,7 @@ public class Pirate extends CouchDbDocument {
 	}
 
 	public boolean hasShip() {
-		return ship == null;
+		return ship != null;
 	}
 
 	public double getExperience() {
