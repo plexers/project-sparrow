@@ -129,7 +129,14 @@ public class DbManager {
 	}
 
 	public static void save(Object o) {
-		db.update(o);
+		if (o instanceof Arggg) {
+			Arggg arggg = (Arggg) o;
+			String id = arggg.getId();
+			if (id == null || id.length() == 0)
+				db.create(o);
+			else
+				db.update(o);
+		}
 	}
 
 	public static Object read(Class<?> clz, String id) {
