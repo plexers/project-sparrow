@@ -212,12 +212,7 @@ public class Game {
 		}
 		System.out.print("Choose Battle :");
 		int choice = s.nextInt();
-
-		// TODO: couchdb join battle #choice
-		Battle battle = Battle.getInstance(); // temporary object - return from
-												// couchDB
-		battle.addPlayer(UserManager.getUser());
-		// TODO: couchDB send battle object
+		Battle battle = BattleManager.choose(choice);
 
 	}
 
@@ -226,6 +221,6 @@ public class Game {
 			Battle battle = Battle.getInstance();
 		} catch (TimeoutException e) {
 			System.out.println(e.getMessage());
-		} 
+		}
 	}
 }

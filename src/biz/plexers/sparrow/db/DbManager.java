@@ -2,12 +2,16 @@ package biz.plexers.sparrow.db;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
 import org.ektorp.DbAccessException;
+import org.ektorp.ViewQuery;
+import org.ektorp.ViewResult;
 import org.ektorp.changes.ChangesCommand;
 import org.ektorp.changes.ChangesFeed;
 import org.ektorp.changes.DocumentChange;
@@ -142,8 +146,8 @@ public class DbManager {
 		}
 	}
 
-	public static Object read(Class<?> clz, String id) {
-		return db.get(clz, id);
+	public static <E> E read(Class<E> clz, String id) {
+		return (E) db.get(clz, id);
 	}
 
 	private static boolean isDbDoc(Object o) {
@@ -167,10 +171,10 @@ public class DbManager {
 			while (feed.isAlive()) {
 				try {
 					DocumentChange change = feed.next(timeout, timeUnit);
-					if(change == null) 
+					if (change == null)
 						throw new TimeoutException();
 					String docId = change.getId();
-					if(docId.equals(arggg.getId())) {
+					if (docId.equals(arggg.getId())) {
 						feed.cancel();
 						return (T) db.get(clz, arggg.getId());
 					}
@@ -182,6 +186,18 @@ public class DbManager {
 		}
 		return null;
 
+	}
+
+	public static Map<String, Object> queryView(String desingDocId,
+			String viewName) {
+		ViewQuery query = new ViewQuery().designDocId(desingDocId).viewName(
+				viewName);
+		ViewResult result = db.queryView(query);
+		Map<String, Object> map = new HashMap<String, Object>();
+		for (ViewResult.Row row : result) {
+			map.put(row.getKey(), row.getValue());
+		}
+		return map;
 	}
 
 }
