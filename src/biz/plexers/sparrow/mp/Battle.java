@@ -2,6 +2,8 @@ package biz.plexers.sparrow.mp;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import biz.plexers.sparrow.core.Player;
 import biz.plexers.sparrow.core.UserManager;
@@ -26,10 +28,14 @@ public class Battle extends Arggg{
 		player1 = UserManager.getUser();
 	}
 	
-	public static Battle getInstance() {
+	public static Battle getInstance() throws TimeoutException {
 		Battle res = new Battle();
 		DbManager.save(res);
-		return res; 
+		try {
+			return DbManager.waitForChanges(res, Battle.class, 30, TimeUnit.SECONDS);
+		} catch (TimeoutException e) {
+			throw new TimeoutException("No player joined the game!");
+		} 
 	}
 
 	public void submitTurnAndWaitForOpponnent(Turn turn) {

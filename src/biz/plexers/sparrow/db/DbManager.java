@@ -2,10 +2,15 @@ package biz.plexers.sparrow.db;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
 import org.ektorp.DbAccessException;
+import org.ektorp.changes.ChangesCommand;
+import org.ektorp.changes.ChangesFeed;
+import org.ektorp.changes.DocumentChange;
 import org.ektorp.http.HttpClient;
 import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbInstance;
@@ -130,9 +135,7 @@ public class DbManager {
 
 	public static void save(Object o) {
 		if (o instanceof Arggg) {
-			Arggg arggg = (Arggg) o;
-			String id = arggg.getId();
-			if (id == null || id.length() == 0)
+			if (!isDbDoc(o))
 				db.create(o);
 			else
 				db.update(o);
@@ -141,6 +144,44 @@ public class DbManager {
 
 	public static Object read(Class<?> clz, String id) {
 		return db.get(clz, id);
+	}
+
+	private static boolean isDbDoc(Object o) {
+		if (o instanceof Arggg) {
+			Arggg arggg = (Arggg) o;
+			String id = arggg.getId();
+			return !(id == null || id.length() == 0);
+		}
+		return false;
+	}
+
+	public static <T> T waitForChanges(Object o, Class<T> clz, long timeout,
+			TimeUnit timeUnit) throws TimeoutException {
+		if (isDbDoc(o)) {
+			Arggg arggg = (Arggg) o;
+			ChangesCommand cmd = new ChangesCommand.Builder()
+					.filter("multiplayer/battleChanges")
+					.param("id", arggg.getId()).build();
+
+			ChangesFeed feed = db.changesFeed(cmd);
+			while (feed.isAlive()) {
+				try {
+					DocumentChange change = feed.next(timeout, timeUnit);
+					if(change == null) 
+						throw new TimeoutException();
+					String docId = change.getId();
+					if(docId.equals(arggg.getId())) {
+						feed.cancel();
+						return (T) db.get(clz, arggg.getId());
+					}
+					System.out.println(docId);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return null;
+
 	}
 
 }

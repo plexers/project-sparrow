@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
 
 import biz.plexers.sparrow.core.Pirate;
@@ -221,8 +222,10 @@ public class Game {
 	}
 
 	private static void createMpBattle() {
-		Battle battle = Battle.getInstance(); // temporary object - return from
-												// couchDB
-		// TODO: couchDB send battle object
+		try {
+			Battle battle = Battle.getInstance();
+		} catch (TimeoutException e) {
+			System.out.println(e.getMessage());
+		} 
 	}
 }
