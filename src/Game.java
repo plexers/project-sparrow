@@ -10,9 +10,9 @@ import biz.plexers.sparrow.core.Ship;
 import biz.plexers.sparrow.core.UserManager;
 import biz.plexers.sparrow.db.exceptions.SignInException;
 import biz.plexers.sparrow.db.exceptions.SignUpException;
-import biz.plexers.sparrow.sp.ResourceMarket;
 import biz.plexers.sparrow.mp.Battle;
 import biz.plexers.sparrow.mp.BattleManager;
+import biz.plexers.sparrow.sp.ResourceMarket;
 import biz.plexers.sparrow.sp.ShipMarket;
 
 public class Game {

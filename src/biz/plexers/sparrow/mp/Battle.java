@@ -1,7 +1,5 @@
 package biz.plexers.sparrow.mp;
 
-import java.util.List;
-
 import biz.plexers.sparrow.core.Player;
 
 public class Battle {

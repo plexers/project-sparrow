@@ -17,6 +17,11 @@ public class Resource {
 	private int quantity;
 	private Choices type;
 	private double unitPrice;
+	
+	public Resource(Choices type) {
+		this.type = type;
+		this.name = type.name();
+	}
 
 	public enum Choices {
 
@@ -38,6 +43,10 @@ public class Resource {
 				this.quantity += other.quantity;
 			}
 		}
+	}
+
+	public double getTotalPrice() {
+		return unitPrice * quantity;
 	}
 
 	private Resource(Map<String, Object> props) {
@@ -65,9 +74,5 @@ public class Resource {
 
 		}
 
-	}
-
-	public double getTotalPrice() {
-		return unitPrice * quantity;
 	}
 }

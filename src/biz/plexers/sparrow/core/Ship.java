@@ -1,6 +1,7 @@
 package biz.plexers.sparrow.core;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,9 +17,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize(using = Ship.Serializer.class)
 public class Ship extends Arggg {
 
-	private Set<UpgradableShipAttribute> upgradableShipAttributes;
-	private Set<InBattleShipAttribute> inBattleShipAttributes;
-	private Set<StandardShipAttribute> standardShipAttributes;
+	private HashMap<UpgradableShipAttribute.Choices, UpgradableShipAttribute> upgradableShipAttributes;
+	private HashMap<InBattleShipAttribute.Choices, InBattleShipAttribute> inBattleShipAttributes;
+	private HashMap<StandardShipAttribute.Choices, StandardShipAttribute> standardShipAttributes;
 	private double goldValue;
 	private String name;
 
@@ -38,17 +39,16 @@ public class Ship extends Arggg {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private Ship(Map<String, Object> props) {
-		super();
 		goldValue = (double) props.get("goldValue");
 		name = (String) props.get("name");
-		// TODO Uncomment these lines where deserializers ready
-		// upgradableShipAttributes = (Set<UpgradableShipAttribute>)
-		// props.get("upgradableShipAttributes");
-		// inBattleShipAttributes = (Set<InBattleShipAttribute>)
-		// props.get("inBattleShipAttributes");
-		// standardShipAttributes = (Set<StandardShipAttribute>)
-		// props.get("standardShipAttributes");
+		upgradableShipAttributes = (HashMap<UpgradableShipAttribute.Choices,UpgradableShipAttribute>) props
+				.get("upgradableShipAttributes");
+		inBattleShipAttributes = (HashMap<InBattleShipAttribute.Choices,InBattleShipAttribute>) props
+				.get("inBattleShipAttributes");
+		standardShipAttributes = (HashMap<StandardShipAttribute.Choices,StandardShipAttribute>) props
+				.get("standardShipAttributes");
 	}
 
 	@JsonCreator
@@ -63,15 +63,14 @@ public class Ship extends Arggg {
 				SerializerProvider provider) throws IOException,
 				JsonProcessingException {
 			jgen.writeStartObject();
-			jgen.writeNumberField("goldVaule", value.goldValue);
+			jgen.writeNumberField("goldValue", value.goldValue);
 			jgen.writeStringField("name", value.name);
-			// TODO Uncomment these lines where serializers ready
-			// jgen.writeObjectField("inBattleShipAttributes",
-			// value.inBattleShipAttributes);
-			// jgen.writeObjectField("upgradableShipAttributes",
-			// value.upgradableShipAttributes);
-			// jgen.writeObjectField("standardShipAttributes",
-			// value.standardShipAttributes);
+			jgen.writeObjectField("inBattleShipAttributes",
+					value.inBattleShipAttributes);
+			jgen.writeObjectField("upgradableShipAttributes",
+					value.upgradableShipAttributes);
+			jgen.writeObjectField("standardShipAttributes",
+					value.standardShipAttributes);
 			jgen.writeEndObject();
 
 		}

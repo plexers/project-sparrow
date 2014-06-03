@@ -52,6 +52,7 @@ public class DbManager {
 	public static boolean signUp(String username, String password, String email)
 			throws SignUpException {
 		CouchDbConnector usersDb = getUsersDb();
+		// TODO Find a way to create a pirate
 		try {
 			usersDb.create(getUser(username, password, email));
 		} catch (Exception e) {
@@ -128,7 +129,7 @@ public class DbManager {
 	}
 
 	public static void save(Object o) {
-		db.create(o);
+		db.update(o);
 	}
 
 	public static Object read(Class<?> clz, String id) {

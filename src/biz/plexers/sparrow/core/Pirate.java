@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import biz.plexers.sparrow.db.Arggg;
+import biz.plexers.sparrow.db.DbHelper;
+import biz.plexers.sparrow.db.DbManager;
 import biz.plexers.sparrow.sp.ResourceMarket;
 import biz.plexers.sparrow.sp.ShipMarket;
 
@@ -41,6 +43,7 @@ public class Pirate extends Arggg {
 			double dept = -ship.getGoldValue();
 			if (this.changeGoldBy(dept)) {
 				this.ship = ship;
+				DbManager.savePirate();
 				return true;
 			}
 			throw new Exception("Error! Insufficient gold to buy this ship!");
@@ -84,13 +87,14 @@ public class Pirate extends Arggg {
 		return gold;
 	}
 
+	@SuppressWarnings("unchecked")
 	private Pirate(Map<String, Object> props) {
 		experience = (double) props.get("experience");
 		name = (String) props.get("name");
 		gold = (double) props.get("gold");
-		// TODO Uncomment these lines when deserializers ready
-		// ship = (Ship) props.get("ship");
-		// resourcesManager = (ResourcesManager) props.get("resourcesManager");
+		Map<String, Object> mapShip = (Map<String, Object>) props.get("ship");
+		ship = DbHelper.mapAsObject(mapShip, Ship.class);
+		resourcesManager = (ResourcesManager) props.get("resourcesManager");
 	}
 
 	@JsonCreator
@@ -105,13 +109,12 @@ public class Pirate extends Arggg {
 				SerializerProvider provider) throws IOException,
 				JsonProcessingException {
 			jgen.writeStartObject();
-
+			
 			jgen.writeNumberField("experience", value.experience);
 			jgen.writeStringField("name", value.name);
 			jgen.writeNumberField("gold", value.gold);
-			// TODO Uncomment these lines when serializers ready
-			// jgen.writeObjectField("ship", value.ship);
-			// jgen.writeObjectField("resourceManager", value.resourcesManager);
+			jgen.writeObjectField("ship", value.ship);
+			jgen.writeObjectField("resourceManager", value.resourcesManager);
 			jgen.writeEndObject();
 
 		}

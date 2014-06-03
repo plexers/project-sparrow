@@ -1,6 +1,5 @@
 package biz.plexers.sparrow.sp;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -9,9 +8,7 @@ import biz.plexers.sparrow.core.Ship;
 import biz.plexers.sparrow.db.DbManager;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ShipMarket extends Market {
@@ -22,7 +19,6 @@ public class ShipMarket extends Market {
 	}
 
 	public static ShipMarket getInstance() {
-		// TODO Add implementation
 		return (ShipMarket) DbManager.read(ShipMarket.class, "shipMarket");
 	}
 
@@ -31,13 +27,14 @@ public class ShipMarket extends Market {
 	}
 
 	private ShipMarket(Map<String, Object> props) {
+		id = (String) props.get("_id");
+		revision = (String) props.get("_rev");
 		ObjectMapper objectMapper = new ObjectMapper();
 		Object rawShips = props.get("ships");
 		try {
 			String jsonString = objectMapper.writeValueAsString(rawShips);
 			ships = objectMapper.readValue(jsonString, new TypeReference<List<Ship>>() { });
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

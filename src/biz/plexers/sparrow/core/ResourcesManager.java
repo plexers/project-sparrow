@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import biz.plexers.sparrow.core.Resource.Choices;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,6 +16,14 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize(using = ResourcesManager.Serializer.class)
 public class ResourcesManager {
+	
+	public ResourcesManager() {
+		resources = new HashMap<>();
+		resources.put(Choices.Cannons, new Resource(Choices.Cannons));
+		resources.put(Choices.Crew, new Resource(Choices.Crew));
+		resources.put(Choices.Lumber, new Resource(Choices.Lumber));
+		resources.put(Choices.Metal, new Resource(Choices.Metal));
+	}
 
 	private HashMap<Resource.Choices, Resource> resources;
 
@@ -44,6 +54,7 @@ public class ResourcesManager {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private ResourcesManager(Map<String, Object> props) {
 		resources = (HashMap<Resource.Choices, Resource>) props
 				.get("resources");
