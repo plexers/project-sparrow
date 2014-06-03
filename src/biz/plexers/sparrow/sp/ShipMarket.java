@@ -27,8 +27,7 @@ public class ShipMarket extends Market {
 	}
 
 	private ShipMarket(Map<String, Object> props) {
-		id = (String) props.get("_id");
-		revision = (String) props.get("_rev");
+		super(props);
 		ObjectMapper objectMapper = new ObjectMapper();
 		Object rawShips = props.get("ships");
 		try {

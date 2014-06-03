@@ -39,8 +39,7 @@ public class ResourceMarket extends Market {
 	
 	@SuppressWarnings("unchecked")
 	private ResourceMarket(Map<String, Object> props) {
-		id = (String) props.get("_id");
-		revision = (String) props.get("_rev");
+		super(props);
 		Map<String, Object> mapRM = (Map<String, Object>) props.get("resourcesManager");
 		resourcesManager = DbHelper.mapAsObject(mapRM, ResourcesManager.class);
 	}
