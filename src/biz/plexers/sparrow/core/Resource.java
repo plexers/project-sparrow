@@ -25,17 +25,32 @@ public class Resource {
 		this.name = type.name();
 	}
 
+	public Resource(Choices choice, int quantity) {
+		this(choice);
+		this.quantity = quantity;
+	}
+
 	public enum Choices {
 
 		Lumber, Cannons, Crew, Metal
 	}
 
-	public void changeQ(int offset) {
+	public boolean changeQ(int offset) {
 
 		if (quantity + offset >= 0) {
 			quantity += offset;
+			return true;
 		}
+		return false;
 
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public Choices getType() {
+		return type;
 	}
 
 	public void consume(Resource other) {

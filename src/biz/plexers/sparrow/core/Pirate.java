@@ -104,6 +104,10 @@ public class Pirate extends Arggg {
 		ship = null;
 		DbManager.savePirate();
 	}
+	
+	public boolean pay(Upgrade upgrade) {
+		return resourcesManager.subtract(upgrade.getRequirements()); 
+	}
 
 	@SuppressWarnings("unchecked")
 	private Pirate(Map<String, Object> props) {

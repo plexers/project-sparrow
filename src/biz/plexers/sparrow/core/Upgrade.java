@@ -16,11 +16,17 @@ public class Upgrade {
 		profits = new HashMap<>();
 	}
 
+	public ResourcesManager getRequirements() {
+		return requirements;
+	}
+
 	public void setAttribute(UpgradableShipAttribute.Choices choice, int value) {
 		UpgradableShipAttribute attribute = new UpgradableShipAttribute(choice,
 				value);
 
 		profits.put(choice, attribute);
+		requirements.calculateRequirementFor(choice, value);
+		// TODO Fix NullPointer Exception
 	}
 
 	public UpgradableShipAttribute getAttribute(

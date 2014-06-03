@@ -210,7 +210,11 @@ public class Game {
 			upgrade.setAttribute(choice, value);
 
 		}
-		UserManager.getShip().applyUpgrade(upgrade);
+		try {
+			UserManager.getShip().applyUpgrade(upgrade);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	private static void multiPlayer() {

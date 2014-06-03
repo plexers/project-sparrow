@@ -6,6 +6,7 @@ import java.util.Map;
 
 import biz.plexers.sparrow.core.UpgradableShipAttribute.Choices;
 import biz.plexers.sparrow.db.Arggg;
+import biz.plexers.sparrow.db.DbManager;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -27,7 +28,10 @@ public class Ship extends Arggg {
 		return name;
 	}
 
-	public void applyUpgrade(Upgrade upgrade) {
+	public void applyUpgrade(Upgrade upgrade) throws Exception {
+		if (!UserManager.getPirate().pay(upgrade)) {
+			throw new Exception("Insufficient resources for this upgrade!");
+		}
 		for (UpgradableShipAttribute attribute : upgradableShipAttributes
 				.values()) {
 			Choices choice = attribute.getType();
@@ -35,6 +39,8 @@ public class Ship extends Arggg {
 					.getAttribute(choice);
 			attribute.consume(otherAttribute);
 		}
+		
+		DbManager.savePirate();
 
 	}
 

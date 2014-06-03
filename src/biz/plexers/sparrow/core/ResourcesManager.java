@@ -33,17 +33,28 @@ public class ResourcesManager {
 		return Collections.unmodifiableMap(resources);
 	}
 
-	public void changeResourceBy(Resource.Choices resourceType, int offset) {
+	public boolean changeResourceBy(Resource.Choices resourceType, int offset) {
 
 		Resource tempRes = resources.get(resourceType);
 
 		if (tempRes != null) {
-			tempRes.changeQ(offset);
+			return tempRes.changeQ(offset);
 		}
+
+		return false;
+	}
+
+	public boolean subtract(ResourcesManager other) {
+		for (Resource r : other.resources.values()) {
+			if (!changeResourceBy(r.getType(), -r.getQuantity())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public void consume(ResourcesManager other) {
-		
+
 		HashMap<Choices, Resource> otherResources = other.resources;
 		for (Resource.Choices choice : Resource.Choices.values()) {
 			Resource thisTempRes = resources.get(choice);
@@ -56,9 +67,13 @@ public class ResourcesManager {
 			}
 		}
 	}
-	
-	public void calculateRequirementFor(UpgradableShipAttribute.Choices choice, int value){
-		Resource.match(choice);
+
+	public void calculateRequirementFor(UpgradableShipAttribute.Choices choice,
+			int value) {
+		Resource.Choices match = Resource.match(choice);
+		// TODO Improve quantity match
+		Resource tempResource = new Resource(match, value);
+		resources.put(match, tempResource);
 	}
 
 	@SuppressWarnings("unchecked")
