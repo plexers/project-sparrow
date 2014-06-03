@@ -19,7 +19,7 @@ public class ShipMarket extends Market {
 	}
 
 	public static ShipMarket getInstance() {
-		return (ShipMarket) DbManager.read(ShipMarket.class, "shipMarket");
+		return DbManager.read(ShipMarket.class, "shipMarket");
 	}
 
 	public List<Ship> getShips() {

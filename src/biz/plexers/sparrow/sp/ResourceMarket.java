@@ -19,7 +19,7 @@ public class ResourceMarket extends Market {
 	}
 
 	public static ResourceMarket getInstance() {
-		return (ResourceMarket) DbManager.read(ResourceMarket.class, "resourceMarket");
+		return DbManager.read(ResourceMarket.class, "resourceMarket");
 	}
 
 	public double getTotalCost() {
