@@ -1,13 +1,11 @@
 package biz.plexers.sparrow.db;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DbHelper {
 	
-	public static <E> E mapAsObject(Map<String, Object> map, Class<E> objectClass) {
+	public static <E> E mapAsObject(Object map, Class<E> objectClass) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			String json = objectMapper.writeValueAsString(map);
@@ -18,7 +16,7 @@ public class DbHelper {
 		}
 	}
 	
-	public static <E> E mapAsObject(Map<String, Object> map, TypeReference<E> typeRef) {
+	public static <E> E mapAsObject(Object map, TypeReference<E> typeRef) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			String json = objectMapper.writeValueAsString(map);
