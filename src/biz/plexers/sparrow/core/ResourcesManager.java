@@ -6,17 +6,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import biz.plexers.sparrow.core.Resource.Choices;
+import biz.plexers.sparrow.db.DbHelper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize(using = ResourcesManager.Serializer.class)
 public class ResourcesManager {
-	
+
 	public ResourcesManager() {
 		resources = new HashMap<>();
 		resources.put(Choices.Cannons, new Resource(Choices.Cannons));
@@ -41,10 +43,11 @@ public class ResourcesManager {
 	}
 
 	public void consume(ResourcesManager other) {
-
+		
+		HashMap<Choices, Resource> otherResources = other.resources;
 		for (Resource.Choices choice : Resource.Choices.values()) {
 			Resource thisTempRes = resources.get(choice);
-			Resource otherTempRes = resources.get(choice);
+			Resource otherTempRes = otherResources.get(choice);
 
 			if (thisTempRes != null) {
 				thisTempRes.consume(otherTempRes);
@@ -56,8 +59,11 @@ public class ResourcesManager {
 
 	@SuppressWarnings("unchecked")
 	private ResourcesManager(Map<String, Object> props) {
-		resources = (HashMap<Resource.Choices, Resource>) props
+		Map<String, Object> mapResources = (Map<String, Object>) props
 				.get("resources");
+		resources = DbHelper.mapAsObject(mapResources,
+				new TypeReference<HashMap<Resource.Choices, Resource>>() {
+				});
 	}
 
 	@JsonCreator
