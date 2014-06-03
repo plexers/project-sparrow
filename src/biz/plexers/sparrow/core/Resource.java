@@ -3,6 +3,8 @@ package biz.plexers.sparrow.core;
 import java.io.IOException;
 import java.util.Map;
 
+import biz.plexers.sparrow.db.DbHelper;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -54,6 +56,8 @@ public class Resource {
 		quantity = (int) props.get("quantity");
 		String typeName = (String) props.get("type");
 		type = (Choices) Choices.valueOf(typeName);
+		Object objUnitPrice = props.get("unitPrice");
+		unitPrice = DbHelper.objectToDouble(objUnitPrice);
 	}
 
 	@JsonCreator
@@ -68,9 +72,11 @@ public class Resource {
 				SerializerProvider provider) throws IOException,
 				JsonProcessingException {
 			jgen.writeStartObject();
+			value.unitPrice = 0;
 			jgen.writeStringField("name", value.name);
 			jgen.writeNumberField("quantity", value.quantity);
 			jgen.writeObjectField("type", value.type);
+			jgen.writeObjectField("unitPrice", value.unitPrice);
 			jgen.writeEndObject();
 
 		}

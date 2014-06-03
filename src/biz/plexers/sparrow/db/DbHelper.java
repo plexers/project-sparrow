@@ -28,4 +28,16 @@ public class DbHelper {
 			return null;
 		}
 	}
+	
+	public static double objectToDouble(Object obj) {
+		if(obj instanceof Integer) {
+			Integer intObj= (Integer) obj;
+			return intObj.doubleValue();
+		}
+		else if (obj instanceof Double) {
+			Double doubleObj = (Double) obj;
+			return doubleObj;
+		}
+		return 0;
+	}
 }
