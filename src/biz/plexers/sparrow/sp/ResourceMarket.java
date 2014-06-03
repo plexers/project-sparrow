@@ -2,9 +2,13 @@ package biz.plexers.sparrow.sp;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import biz.plexers.sparrow.core.Resource;
 import biz.plexers.sparrow.core.Resource.Choices;
 import biz.plexers.sparrow.core.ResourcesManager;
+import biz.plexers.sparrow.db.DbHelper;
+import biz.plexers.sparrow.db.DbManager;
 
 public class ResourceMarket extends Market {
 
@@ -15,8 +19,7 @@ public class ResourceMarket extends Market {
 	}
 
 	public static ResourceMarket getInstance() {
-		// TODO Add Implementation
-		return null;
+		return (ResourceMarket) DbManager.read(ResourceMarket.class, "resourceMarket");
 	}
 
 	public double getTotalCost() {
@@ -32,6 +35,19 @@ public class ResourceMarket extends Market {
 			}
 		}
 		return sum;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private ResourceMarket(Map<String, Object> props) {
+		id = (String) props.get("_id");
+		revision = (String) props.get("_rev");
+		Map<String, Object> mapRM = (Map<String, Object>) props.get("resourcesManager");
+		resourcesManager = DbHelper.mapAsObject(mapRM, ResourcesManager.class);
+	}
+	
+	@JsonCreator
+	public static ResourceMarket factory (Map<String, Object> props) {
+		return new ResourceMarket(props);
 	}
 
 }
