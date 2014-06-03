@@ -55,6 +55,7 @@ public class Pirate extends Arggg {
 
 		if (pay(resourceMarket.getTotalCost())) {
 			this.resourcesManager.consume(resourceMarket.getResourcesManager());
+			DbManager.savePirate();
 			return true;
 		} else {
 			throw new Exception("Insufficient gold!");
@@ -94,7 +95,8 @@ public class Pirate extends Arggg {
 		gold = (double) props.get("gold");
 		Map<String, Object> mapShip = (Map<String, Object>) props.get("ship");
 		ship = DbHelper.mapAsObject(mapShip, Ship.class);
-		resourcesManager = (ResourcesManager) props.get("resourcesManager");
+		Map<String, Object> mapRM = (Map<String, Object>) props.get("resourcesManager");
+		resourcesManager = DbHelper.mapAsObject(mapRM, ResourcesManager.class);
 	}
 
 	@JsonCreator
@@ -114,7 +116,7 @@ public class Pirate extends Arggg {
 			jgen.writeStringField("name", value.name);
 			jgen.writeNumberField("gold", value.gold);
 			jgen.writeObjectField("ship", value.ship);
-			jgen.writeObjectField("resourceManager", value.resourcesManager);
+			jgen.writeObjectField("resourcesManager", value.resourcesManager);
 			jgen.writeEndObject();
 
 		}
