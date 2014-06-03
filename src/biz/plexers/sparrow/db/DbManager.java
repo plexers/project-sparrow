@@ -61,7 +61,6 @@ public class DbManager {
 	public static boolean signUp(String username, String password, String email)
 			throws SignUpException {
 		CouchDbConnector usersDb = getUsersDb();
-		// TODO Find a way to create a pirate
 		try {
 			usersDb.create(getUser(username, password, email));
 		} catch (Exception e) {
@@ -98,6 +97,15 @@ public class DbManager {
 		user.put("roles", JsonNodeFactory.instance.arrayNode());
 		user.put("password", password);
 		user.put("email", email);
+
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			String jsonPirate = objectMapper.writeValueAsString(new Pirate());
+			JsonNode pirateNode = objectMapper.readTree(jsonPirate);
+			user.put("pirate", pirateNode);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return user;
 	}
 
@@ -199,7 +207,7 @@ public class DbManager {
 		}
 		return map;
 	}
-	
+
 	public static void delete(Object o) {
 		db.delete(o);
 	}

@@ -25,6 +25,10 @@ public class Pirate extends Arggg {
 	private Ship ship;
 	private String name;
 	private double gold;
+	
+	public Pirate() {
+		resourcesManager = new ResourcesManager();
+	}
 
 	public boolean changeGoldBy(double offset) {
 		if (this.gold + offset > 0) {
@@ -90,9 +94,11 @@ public class Pirate extends Arggg {
 
 	@SuppressWarnings("unchecked")
 	private Pirate(Map<String, Object> props) {
-		experience = (double) props.get("experience");
+		Object objExp = props.get("experience");
+		experience = DbHelper.objectToDouble(objExp);
 		name = (String) props.get("name");
-		gold = (double) props.get("gold");
+		Object objGold = props.get("gold");
+		gold = DbHelper.objectToDouble(objGold);
 		Map<String, Object> mapShip = (Map<String, Object>) props.get("ship");
 		ship = DbHelper.mapAsObject(mapShip, Ship.class);
 		Map<String, Object> mapRM = (Map<String, Object>) props.get("resourcesManager");
