@@ -25,9 +25,11 @@ public class Pirate extends Arggg {
 	private Ship ship;
 	private String name;
 	private double gold;
-	
+
 	public Pirate() {
 		resourcesManager = new ResourcesManager();
+		// TODO Find a different way to initialize pirate's gold
+		gold = 8000;
 	}
 
 	public boolean changeGoldBy(double offset) {
@@ -101,7 +103,8 @@ public class Pirate extends Arggg {
 		gold = DbHelper.objectToDouble(objGold);
 		Map<String, Object> mapShip = (Map<String, Object>) props.get("ship");
 		ship = DbHelper.mapAsObject(mapShip, Ship.class);
-		Map<String, Object> mapRM = (Map<String, Object>) props.get("resourcesManager");
+		Map<String, Object> mapRM = (Map<String, Object>) props
+				.get("resourcesManager");
 		resourcesManager = DbHelper.mapAsObject(mapRM, ResourcesManager.class);
 	}
 
@@ -117,7 +120,7 @@ public class Pirate extends Arggg {
 				SerializerProvider provider) throws IOException,
 				JsonProcessingException {
 			jgen.writeStartObject();
-			
+
 			jgen.writeNumberField("experience", value.experience);
 			jgen.writeStringField("name", value.name);
 			jgen.writeNumberField("gold", value.gold);
