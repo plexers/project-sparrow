@@ -199,5 +199,9 @@ public class DbManager {
 		}
 		return map;
 	}
+	
+	public static void delete(Object o) {
+		db.delete(o);
+	}
 
 }

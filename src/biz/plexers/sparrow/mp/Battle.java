@@ -34,6 +34,7 @@ public class Battle extends Arggg{
 		try {
 			return DbManager.waitForChanges(res, Battle.class, 30, TimeUnit.SECONDS);
 		} catch (TimeoutException e) {
+			DbManager.delete(res);
 			throw new TimeoutException("No player joined the game!");
 		} 
 	}
