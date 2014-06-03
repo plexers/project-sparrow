@@ -39,7 +39,7 @@ public class Resource {
 	public void consume(Resource other) {
 
 		if (other != null) {
-			if (this.type.equals(other)) {
+			if (this.type.equals(other.type)) {
 				this.quantity += other.quantity;
 			}
 		}
