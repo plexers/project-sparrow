@@ -52,7 +52,8 @@ public class Resource {
 	private Resource(Map<String, Object> props) {
 		name = (String) props.get("name");
 		quantity = (int) props.get("quantity");
-		type = (Choices) props.get("type");
+		String typeName = (String) props.get("type");
+		type = (Choices) Choices.valueOf(typeName);
 	}
 
 	@JsonCreator
