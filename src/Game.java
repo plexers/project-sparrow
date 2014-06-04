@@ -12,6 +12,8 @@ import biz.plexers.sparrow.db.exceptions.SignInException;
 import biz.plexers.sparrow.db.exceptions.SignUpException;
 import biz.plexers.sparrow.mp.Battle;
 import biz.plexers.sparrow.mp.BattleManager;
+import biz.plexers.sparrow.sp.Island;
+import biz.plexers.sparrow.sp.IslandManager;
 import biz.plexers.sparrow.sp.ResourceMarket;
 import biz.plexers.sparrow.sp.ShipMarket;
 
@@ -148,6 +150,13 @@ public class Game {
 
 	private static void raidIsland() {
 
+		IslandManager.createIslands();
+		List<Island> islandsList = IslandManager.getIslands();
+		
+		System.out.println("Select dificulty: 1.Easy 2.Medium 3.Hard");
+		int choice = Integer.parseInt(s.next());
+		
+		
 	}
 
 	private static void buyShip() {

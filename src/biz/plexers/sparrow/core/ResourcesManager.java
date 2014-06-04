@@ -29,6 +29,14 @@ public class ResourcesManager {
 
 	private HashMap<Resource.Choices, Resource> resources;
 
+	public ResourcesManager(int cannons, int crew, int lumber, int metal) {
+		resources = new HashMap<>();
+		resources.put(Choices.Cannons, new Resource(Choices.Cannons, cannons));
+		resources.put(Choices.Crew, new Resource(Choices.Crew, crew));
+		resources.put(Choices.Lumber, new Resource(Choices.Lumber, lumber));
+		resources.put(Choices.Metal, new Resource(Choices.Metal, metal));		
+	}
+	
 	public Map<Resource.Choices, Resource> getResources() {
 		return Collections.unmodifiableMap(resources);
 	}
@@ -55,6 +63,13 @@ public class ResourcesManager {
 				resources.put(choice, otherTempRes);
 			}
 		}
+	}
+	
+	public static ResourcesManager islandResources(int difficulty){
+		
+		
+		ResourcesManager islandResourcesManager = new ResourcesManager();
+		return islandResourcesManager;
 	}
 
 	@SuppressWarnings("unchecked")

@@ -18,9 +18,16 @@ public class Resource {
 	private String name;
 	private int quantity;
 	private Choices type;
-	private double unitPrice;
 	
+	private double unitPrice;
+
 	public Resource(Choices type) {
+		this.type = type;
+		this.name = type.name();
+	}
+
+	public Resource(Choices type, int quantity) {
+		this.quantity = quantity;
 		this.type = type;
 		this.name = type.name();
 	}
