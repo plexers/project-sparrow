@@ -94,6 +94,10 @@ public class Pirate extends Arggg {
 		return gold;
 	}
 
+	public Ship getShip() {
+		return ship;
+	}
+
 	@SuppressWarnings("unchecked")
 	private Pirate(Map<String, Object> props) {
 		Object objExp = props.get("experience");

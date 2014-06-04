@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import biz.plexers.sparrow.core.UpgradableShipAttribute.Choices;
 import biz.plexers.sparrow.db.Arggg;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -27,6 +28,13 @@ public class Ship extends Arggg {
 	}
 
 	public void applyUpgrade(Upgrade upgrade) {
+		for (UpgradableShipAttribute attribute : upgradableShipAttributes
+				.values()) {
+			Choices choice = attribute.getType();
+			UpgradableShipAttribute otherAttribute = upgrade
+					.getAttribute(choice);
+			attribute.consume(otherAttribute);
+		}
 
 	}
 
@@ -42,11 +50,11 @@ public class Ship extends Arggg {
 	private Ship(Map<String, Object> props) {
 		goldValue = (double) props.get("goldValue");
 		name = (String) props.get("name");
-		upgradableShipAttributes = (HashMap<UpgradableShipAttribute.Choices,UpgradableShipAttribute>) props
+		upgradableShipAttributes = (HashMap<UpgradableShipAttribute.Choices, UpgradableShipAttribute>) props
 				.get("upgradableShipAttributes");
-		inBattleShipAttributes = (HashMap<InBattleShipAttribute.Choices,InBattleShipAttribute>) props
+		inBattleShipAttributes = (HashMap<InBattleShipAttribute.Choices, InBattleShipAttribute>) props
 				.get("inBattleShipAttributes");
-		standardShipAttributes = (HashMap<StandardShipAttribute.Choices,StandardShipAttribute>) props
+		standardShipAttributes = (HashMap<StandardShipAttribute.Choices, StandardShipAttribute>) props
 				.get("standardShipAttributes");
 	}
 

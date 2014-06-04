@@ -115,11 +115,11 @@ public class Game {
 				String name = s.next();
 				pirate.setName(name);
 				System.out.println("Successfully created your pirate !!!");
-				singlePlayerChoices();
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
 		}
+		singlePlayerChoices();
 	}
 
 	private static void singlePlayerChoices() {
@@ -178,10 +178,14 @@ public class Game {
 	private static void upgradeShip() {
 		System.out.println("Enter upgrade values: ");
 		Upgrade upgrade = new Upgrade();
-		for(UpgradableShipAttribute.Choices choice : UpgradableShipAttribute.Choices.values()) {
-			System.out.print(choice.name() +" : ");
+		for (UpgradableShipAttribute.Choices choice : UpgradableShipAttribute.Choices
+				.values()) {
+			System.out.print(choice.name() + " : ");
+			int value = s.nextInt();
+			upgrade.setAttribute(choice, value);
+
 		}
-		
+		UserManager.getShip().applyUpgrade(upgrade);
 	}
 
 	private static void multiPlayer() {
