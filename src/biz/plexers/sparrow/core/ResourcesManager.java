@@ -67,8 +67,15 @@ public class ResourcesManager {
 	
 	public static ResourcesManager islandResources(int difficulty){
 		
+		double exp = UserManager.getPirate().getExperience();
 		
-		ResourcesManager islandResourcesManager = new ResourcesManager();
+		//TODO Balance Calculations 
+		int cannons = (int) Math.round(exp/100 * difficulty);
+		int crew = (int) Math.floor(exp/100 * difficulty);
+		int lumber = (int) Math.floor(exp/10 * difficulty);
+		int metal = (int) Math.floor(exp/50 * difficulty);
+		
+		ResourcesManager islandResourcesManager = new ResourcesManager(cannons, crew, lumber, metal);
 		return islandResourcesManager;
 	}
 
