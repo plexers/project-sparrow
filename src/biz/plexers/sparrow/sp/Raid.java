@@ -12,7 +12,7 @@ public class Raid {
 	}
 	
 	public static double calculateSuccessRate(Island island){
-		double successRate = 1 - island.getDifficulty() * 0.15;
+		double successRate = 1 - island.getDifficulty() * 0.20;
 		return successRate;
 	}
 

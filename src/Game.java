@@ -160,7 +160,7 @@ public class Game {
 		}
 		
 		System.out.println("Select Island:");
-		int choice = Integer.parseInt(s.next());
+		int choice = Integer.parseInt(s.next()) - 1;
 		if (choice<=islandsList.size()){
 			if (Raid.isRaidSuccesful(islandsList.get(choice))){
 				UserManager.getPirate().giveResources(islandsList.get(choice).getResourcesManager());
