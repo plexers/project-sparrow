@@ -109,17 +109,15 @@ public class Game {
 			int choice = Game.s.nextInt();
 			try {
 				pirate.buyShip(shipMarket, choice - 1);
+				System.out.print("Give a name for your pirate: ");
+				String name = s.next();
+				pirate.setName(name);
+				System.out.println("Successfully created your pirate !!!");
+				singlePlayerChoices();
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
-
-			System.out.print("Give a name for your pirate: ");
-			String name = s.next();
-			pirate.setName(name);
-			System.out.println("Successfully created your pirate !!!");
 		}
-
-		singlePlayerChoices();
 	}
 
 	private static void singlePlayerChoices() {
