@@ -14,6 +14,7 @@ import biz.plexers.sparrow.mp.Battle;
 import biz.plexers.sparrow.mp.BattleManager;
 import biz.plexers.sparrow.sp.Island;
 import biz.plexers.sparrow.sp.IslandManager;
+import biz.plexers.sparrow.sp.Raid;
 import biz.plexers.sparrow.sp.ResourceMarket;
 import biz.plexers.sparrow.sp.ShipMarket;
 
@@ -152,9 +153,24 @@ public class Game {
 
 		IslandManager.createIslands();
 		List<Island> islandsList = IslandManager.getIslands();
+		System.out.println("Available Islands: ");
+		for (int i=0; i<islandsList.size(); i++) {
+			System.out.println( (i+1) +  ": Success Rate: " + Raid.calculateSuccessRate(islandsList.get(i)));
+			//TODO print available Island's resources
+		}
 		
-		System.out.println("Select dificulty: 1.Easy 2.Medium 3.Hard");
+		System.out.println("Select Island:");
 		int choice = Integer.parseInt(s.next());
+		if (choice<=islandsList.size()){
+			if (Raid.isRaidSuccesful(islandsList.get(choice))){
+				UserManager.getPirate().giveResources(islandsList.get(choice).getResourcesManager());
+				System.out.println("Raid Succesful!");
+			}
+			else{
+				System.out.println("Raid Unsuccesful :(");
+			}
+		}
+		
 		
 		
 	}
