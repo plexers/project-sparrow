@@ -7,6 +7,8 @@ import biz.plexers.sparrow.core.Pirate;
 import biz.plexers.sparrow.core.Resource;
 import biz.plexers.sparrow.core.ResourcesManager;
 import biz.plexers.sparrow.core.Ship;
+import biz.plexers.sparrow.core.UpgradableShipAttribute;
+import biz.plexers.sparrow.core.Upgrade;
 import biz.plexers.sparrow.core.UserManager;
 import biz.plexers.sparrow.db.exceptions.SignInException;
 import biz.plexers.sparrow.db.exceptions.SignUpException;
@@ -174,7 +176,12 @@ public class Game {
 	}
 
 	private static void upgradeShip() {
-
+		System.out.println("Enter upgrade values: ");
+		Upgrade upgrade = new Upgrade();
+		for(UpgradableShipAttribute.Choices choice : UpgradableShipAttribute.Choices.values()) {
+			System.out.print(choice.name() +" : ");
+		}
+		
 	}
 
 	private static void multiPlayer() {

@@ -17,6 +17,12 @@ public class UpgradableShipAttribute extends ShipAttribute {
 
 	private Choices type;
 
+	public UpgradableShipAttribute(UpgradableShipAttribute.Choices choice, int value) {
+		super(value);
+		name = choice.name();
+		type = choice;
+	}
+
 	private UpgradableShipAttribute(Map<String, Object> props) {
 		super(props);
 		type = (Choices) props.get("type");

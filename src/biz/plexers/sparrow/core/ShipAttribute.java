@@ -9,8 +9,12 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 public abstract class ShipAttribute extends Arggg{
-	private String name;
+	protected String name;
 	private int value;
+	
+	public ShipAttribute(int value) {
+		this.value = value;
+	}
 	
 	protected ShipAttribute(Map<String, Object> props) {
 		name = (String) props.get("name");
