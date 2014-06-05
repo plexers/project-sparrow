@@ -56,6 +56,10 @@ public class ResourcesManager {
 			}
 		}
 	}
+	
+	public void calculateRequirementFor(UpgradableShipAttribute.Choices choice, int value){
+		Resource.match(choice);
+	}
 
 	@SuppressWarnings("unchecked")
 	private ResourcesManager(Map<String, Object> props) {

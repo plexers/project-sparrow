@@ -239,7 +239,7 @@ public class Game {
 
 	private static void joinMpBattle() {
 		List<String> openBattles = BattleManager.getBattleList();
-		System.out.print("Available Battles :");
+		System.out.println("Available Battles :");
 
 		for (int i = 0; i < openBattles.size(); i++) {
 			System.out.println(i + ": " + openBattles.get(i));

@@ -19,7 +19,7 @@ public class Resource {
 	private int quantity;
 	private Choices type;
 	private double unitPrice;
-	
+
 	public Resource(Choices type) {
 		this.type = type;
 		this.name = type.name();
@@ -49,6 +49,21 @@ public class Resource {
 
 	public double getTotalPrice() {
 		return unitPrice * quantity;
+	}
+
+	public static Resource.Choices match(UpgradableShipAttribute.Choices otherC) {
+		switch (otherC) {
+		case Armor:
+			return Choices.Metal;
+		case Cannons:
+			return Choices.Cannons;
+		case Crew:
+			return Choices.Crew;
+		case Health:
+			return Choices.Lumber;
+		default:
+			return null;
+		}
 	}
 
 	private Resource(Map<String, Object> props) {
