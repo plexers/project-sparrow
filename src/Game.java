@@ -155,10 +155,10 @@ public class Game {
 		List<Island> islandsList = IslandManager.getIslands();
 		System.out.println("Available Islands: ");
 		for (int i=0; i<islandsList.size(); i++) {
-			System.out.println( (i+1) +  ": Success Rate: " + Raid.calculateSuccessRate(islandsList.get(i)));
+			System.out.println( (i+1) +  ". "
+					+ "Success Change: " + (int) (Raid.calculateSuccessRate(islandsList.get(i))*100) + "%");
 			//TODO print available Island's resources
 		}
-		
 		System.out.println("Select Island:");
 		int choice = Integer.parseInt(s.next()) - 1;
 		if (choice<=islandsList.size()){

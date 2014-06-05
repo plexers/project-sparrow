@@ -15,6 +15,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize(using = Resource.Serializer.class)
 public class Resource {
 
+	@Override
+	public String toString() {
+		return name + quantity;
+	}
+
 	private String name;
 	private int quantity;
 	private Choices type;
