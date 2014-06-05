@@ -98,6 +98,13 @@ public class Pirate extends Arggg {
 		return ship;
 	}
 
+	public void sellShip() {
+		double goldValue = ship.getPresentValue();
+		gold += goldValue;
+		ship = null;
+		DbManager.savePirate();
+	}
+
 	@SuppressWarnings("unchecked")
 	private Pirate(Map<String, Object> props) {
 		Object objExp = props.get("experience");

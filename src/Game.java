@@ -1,3 +1,4 @@
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeoutException;
@@ -101,16 +102,10 @@ public class Game {
 
 	private static void singlePlayer() {
 		if (!UserManager.shipExists()) {
-			ShipMarket shipMarket = ShipMarket.getInstance();
-			List<Ship> ships = shipMarket.getShips();
-			for (int i = 0; i < ships.size(); i++) {
-				Ship s = ships.get(i);
-				System.out.println((i + 1) + ". " + s.getName());
-			}
-
-			int choice = Game.s.nextInt();
+			ShipMarket shipMarket = createShipMarket();
 			try {
-				pirate.buyShip(shipMarket, choice - 1);
+
+				chooseShip(shipMarket);
 				System.out.print("Give a name for your pirate: ");
 				String name = s.next();
 				pirate.setName(name);
@@ -120,6 +115,21 @@ public class Game {
 			}
 		}
 		singlePlayerChoices();
+	}
+
+	private static void chooseShip(ShipMarket shipMarket) throws Exception {
+		int choice = Game.s.nextInt();
+		pirate.buyShip(shipMarket, choice - 1);
+	}
+
+	private static ShipMarket createShipMarket() {
+		ShipMarket shipMarket = ShipMarket.getInstance();
+		List<Ship> ships = shipMarket.getShips();
+		for (int i = 0; i < ships.size(); i++) {
+			Ship s = ships.get(i);
+			System.out.println((i + 1) + ". " + s.getName());
+		}
+		return shipMarket;
 	}
 
 	private static void singlePlayerChoices() {
@@ -151,6 +161,21 @@ public class Game {
 	}
 
 	private static void buyShip() {
+
+		if (UserManager.shipExists()) {
+			System.out.print("Do you want to sell your ship? :");
+			if (s.next().equalsIgnoreCase("yes")) {
+				UserManager.getPirate().sellShip();
+				ShipMarket shipMarket = createShipMarket();
+				try {
+					chooseShip(shipMarket);
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+			}
+
+		}
+		mainWindow();
 
 	}
 

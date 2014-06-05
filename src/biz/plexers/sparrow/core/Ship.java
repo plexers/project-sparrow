@@ -46,6 +46,11 @@ public class Ship extends Arggg {
 
 	}
 
+	public double getPresentValue() {
+		// TODO Improve Calculations
+		return goldValue;
+	}
+
 	@SuppressWarnings("unchecked")
 	private Ship(Map<String, Object> props) {
 		goldValue = (double) props.get("goldValue");
