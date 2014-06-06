@@ -1,4 +1,3 @@
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeoutException;
@@ -13,8 +12,10 @@ import biz.plexers.sparrow.core.Upgrade;
 import biz.plexers.sparrow.core.UserManager;
 import biz.plexers.sparrow.db.exceptions.SignInException;
 import biz.plexers.sparrow.db.exceptions.SignUpException;
+import biz.plexers.sparrow.mp.Action;
 import biz.plexers.sparrow.mp.Battle;
 import biz.plexers.sparrow.mp.BattleManager;
+import biz.plexers.sparrow.mp.Turn;
 import biz.plexers.sparrow.sp.ResourceMarket;
 import biz.plexers.sparrow.sp.ShipMarket;
 
@@ -261,8 +262,23 @@ public class Game {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	private static void createTurn(){
-		// TODO Add Implementation
+
+	private static void pushTurn(Battle battle) {
+		Turn turn = new Turn();
+
+		System.out.println("Enter the crew for each action: ");
+
+		for (Action.Choices choice : Action.Choices.values()) {
+			System.out.print("Enter crew for " + choice.name() + ": ");
+			int crew = s.nextInt();
+			Action tempAction = new Action(choice, crew);
+			turn.addAction(tempAction);
+		}
+		
+		try {
+			battle.submitTurnAndWaitForOpponent(turn);
+		} catch (TimeoutException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }
