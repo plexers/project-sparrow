@@ -27,7 +27,6 @@ public class Upgrade {
 
 		profits.put(choice, attribute);
 		requirements.calculateRequirementFor(choice, value);
-		// TODO Fix NullPointer Exception
 	}
 
 	public UpgradableShipAttribute getAttribute(

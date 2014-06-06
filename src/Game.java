@@ -286,7 +286,5 @@ public class Game {
 		} catch (TimeoutException e) {
 			System.out.println(e.getMessage());
 		}
-		
-		// TODO: Make Turn serializable
 	}
 }
