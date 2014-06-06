@@ -261,4 +261,8 @@ public class Game {
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	private static void createTurn(){
+		// TODO Add Implementation
+	}
 }

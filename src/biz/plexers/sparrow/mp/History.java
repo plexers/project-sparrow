@@ -1,4 +1,5 @@
 package biz.plexers.sparrow.mp;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,19 +18,20 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize(using = History.Serializer.class)
 public class History {
 	List<Turn> historyList;
-	
+
 	public History() {
 		historyList = new ArrayList<>();
 	}
-	
-	public void pushTurn(Turn turn) {
-		
+
+	public boolean pushTurn(Turn turn) {
+		return historyList.add(turn);
 	}
-	
+
 	private History(Map<String, Object> props) {
 		Object objHistoryList = props.get("historyList");
-		historyList = DbHelper.mapAsObject(objHistoryList, new TypeReference<List<Turn>>() {
-		});
+		historyList = DbHelper.mapAsObject(objHistoryList,
+				new TypeReference<List<Turn>>() {
+				});
 	}
 
 	@JsonCreator
@@ -44,9 +46,9 @@ public class History {
 				SerializerProvider provider) throws IOException,
 				JsonProcessingException {
 			jgen.writeStartObject();
-			
+
 			jgen.writeObjectField("historyList", value.historyList);
-			
+
 			jgen.writeEndObject();
 
 		}

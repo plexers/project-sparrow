@@ -1,6 +1,7 @@
 package biz.plexers.sparrow.mp;
 
 import java.io.IOException;
+import java.sql.Savepoint;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -19,27 +20,39 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize(using = Battle.Serializer.class)
-public class Battle extends Arggg{
+public class Battle extends Arggg {
 	private Player player1, player2;
 	private History history;
-	
+
 	private Battle() {
 		history = new History();
 		player1 = UserManager.getUser();
 	}
-	
+
 	public static Battle getInstance() throws TimeoutException {
 		Battle res = new Battle();
 		DbManager.save(res);
 		try {
-			return DbManager.waitForChanges(res, Battle.class, 30, TimeUnit.SECONDS);
+			return DbManager.waitForChanges(res, Battle.class, 30,
+					TimeUnit.SECONDS);
 		} catch (TimeoutException e) {
 			DbManager.delete(res);
 			throw new TimeoutException("No player joined the game!");
-		} 
+		}
 	}
 
-	public void submitTurnAndWaitForOpponnent(Turn turn) {
+	public Battle submitTurnAndWaitForOpponent(Turn turn)
+			throws TimeoutException {
+		history.pushTurn(turn);
+		DbManager.save(this);
+		try {
+			Battle newBattle = DbManager.waitForChanges(this, Battle.class, 30,
+					TimeUnit.SECONDS);
+			applyResult();
+			return newBattle;
+		} catch (TimeoutException e) {
+			throw new TimeoutException("Your opponent did not respond in time!");
+		}
 
 	}
 
@@ -54,7 +67,7 @@ public class Battle extends Arggg{
 			player2 = p;
 		}
 	}
-	
+
 	private Battle(Map<String, Object> props) {
 		super(props);
 		Object objHistory = props.get("history");
@@ -64,12 +77,11 @@ public class Battle extends Arggg{
 		Object objPlayer2 = props.get("player2");
 		player2 = DbHelper.mapAsObject(objPlayer2, Player.class);
 	}
-	
+
 	@JsonCreator
 	public static Battle factory(Map<String, Object> props) {
 		return new Battle(props);
 	}
-	
 
 	public static class Serializer extends JsonSerializer<Battle> {
 
@@ -78,12 +90,12 @@ public class Battle extends Arggg{
 				SerializerProvider provider) throws IOException,
 				JsonProcessingException {
 			jgen.writeStartObject();
-			
+
 			value.superSerialize(jgen);
 			jgen.writeObjectField("history", value.history);
 			jgen.writeObjectField("player1", value.player1);
 			jgen.writeObjectField("player2", value.player2);
-			
+
 			jgen.writeEndObject();
 
 		}
