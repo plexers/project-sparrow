@@ -251,13 +251,19 @@ public class Game {
 		}
 		System.out.print("Choose Battle :");
 		int choice = s.nextInt();
-		Battle battle = BattleManager.choose(choice);
+		try {
+			Battle battle = BattleManager.choose(choice);
+			pushTurn(battle);
+		} catch (TimeoutException e) {
+			System.out.println(e.getMessage());
+		}
 
 	}
 
 	private static void createMpBattle() {
 		try {
 			Battle battle = Battle.getInstance();
+			pushTurn(battle);
 		} catch (TimeoutException e) {
 			System.out.println(e.getMessage());
 		}
@@ -274,11 +280,13 @@ public class Game {
 			Action tempAction = new Action(choice, crew);
 			turn.addAction(tempAction);
 		}
-		
+
 		try {
 			battle.submitTurnAndWaitForOpponent(turn);
 		} catch (TimeoutException e) {
 			System.out.println(e.getMessage());
 		}
+		
+		// TODO: Make Turn serializable
 	}
 }

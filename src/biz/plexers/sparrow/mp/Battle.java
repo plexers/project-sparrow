@@ -44,16 +44,23 @@ public class Battle extends Arggg {
 	public Battle submitTurnAndWaitForOpponent(Turn turn)
 			throws TimeoutException {
 		history.pushTurn(turn);
+		Battle newBattle = submitAndWait();
+		applyResult();
+		return newBattle;
+
+	}
+
+	public Battle submitAndWait() throws TimeoutException {
 		DbManager.save(this);
+		Battle newBattle;
 		try {
-			Battle newBattle = DbManager.waitForChanges(this, Battle.class, 30,
+			newBattle = DbManager.waitForChanges(this, Battle.class, 30,
 					TimeUnit.SECONDS);
-			applyResult();
-			return newBattle;
 		} catch (TimeoutException e) {
 			throw new TimeoutException("Your opponent did not respond in time!");
 		}
 
+		return newBattle;
 	}
 
 	public void applyResult() {
