@@ -14,6 +14,7 @@ public class Upgrade {
 
 	public Upgrade() {
 		profits = new HashMap<>();
+		requirements = new ResourcesManager();
 	}
 
 	public ResourcesManager getRequirements() {
