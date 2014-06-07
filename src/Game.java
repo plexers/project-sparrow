@@ -8,6 +8,7 @@ import biz.plexers.sparrow.core.Resource;
 import biz.plexers.sparrow.core.ResourcesManager;
 import biz.plexers.sparrow.core.Ship;
 import biz.plexers.sparrow.core.UserManager;
+import biz.plexers.sparrow.db.DbManager;
 import biz.plexers.sparrow.db.exceptions.SignInException;
 import biz.plexers.sparrow.db.exceptions.SignUpException;
 import biz.plexers.sparrow.mp.Battle;
@@ -164,6 +165,7 @@ public class Game {
 		if (choice<=islandsList.size()){
 			if (Raid.isRaidSuccesful(islandsList.get(choice))){
 				UserManager.getPirate().giveResources(islandsList.get(choice).getResourcesManager());
+				DbManager.savePirate();
 				System.out.println("Raid Succesful!");
 			}
 			else{
