@@ -64,7 +64,9 @@ public class Ship extends Arggg {
 	}
 
 	public void engageBattle() {
-
+		for(InBattleShipAttribute a: inBattleShipAttributes.values()) {
+			a.setValue(0);
+		}
 	}
 
 	public double getPresentValue() {

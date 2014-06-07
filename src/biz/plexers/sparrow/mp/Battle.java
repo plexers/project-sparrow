@@ -27,6 +27,7 @@ public class Battle extends Arggg {
 	private Battle() {
 		history = new History();
 		player1 = UserManager.getUser();
+		UserManager.getShip().engageBattle();
 	}
 
 	public static Battle getInstance() throws TimeoutException {
@@ -41,8 +42,8 @@ public class Battle extends Arggg {
 		}
 	}
 
-	public Battle submitTurnAndWaitForOpponent(Turn turn) throws TimeoutException,
-			InsufficientCrewException {
+	public Battle submitTurnAndWaitForOpponent(Turn turn)
+			throws TimeoutException, InsufficientCrewException {
 		history.pushTurn(turn);
 		Battle newBattle = submitAndWait();
 		applyResult();
@@ -67,7 +68,9 @@ public class Battle extends Arggg {
 
 	}
 
-	public void addPlayer(Player p) {
+	public void addPlayer() {
+		UserManager.getShip().engageBattle();
+		Player p = UserManager.getUser();
 		if (player1 == null) {
 			player1 = p;
 		} else if (player2 == null) {

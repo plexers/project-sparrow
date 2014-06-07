@@ -27,7 +27,7 @@ public class BattleManager {
 		String battleName = battleNames.get(battleIndex);
 		String battleID = (String) openBattles.get(battleName);
 		Battle battle = DbManager.read(Battle.class, battleID);
-		battle.addPlayer(UserManager.getUser());
+		battle.addPlayer();
 		return battle.submitAndWait();
 	}
 

@@ -23,6 +23,10 @@ public abstract class ShipAttribute<Choices> {
 		return value;
 	}
 
+	public void setValue(int value) {
+		this.value = value;
+	}
+
 	protected ShipAttribute(Map<String, Object> props) {
 		name = (String) props.get("name");
 		value = (int) props.get("value");
@@ -33,7 +37,7 @@ public abstract class ShipAttribute<Choices> {
 		jgen.writeStringField("name", name);
 		jgen.writeNumberField("value", value);
 	}
-	
+
 	public abstract Choices getType();
 
 }
