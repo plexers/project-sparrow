@@ -11,13 +11,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
-public class InBattleShipAttribute extends ShipAttribute {
+public class InBattleShipAttribute extends ShipAttribute<InBattleShipAttribute.Choices> {
 
 	public enum Choices {
 		WoundedCrew, LoadedCannons
 	}
 
 	private Choices type;
+
+	@Override
+	public Choices getType() {
+		return type;
+	}
 
 	private InBattleShipAttribute(Map<String, Object> props) {
 		super(props);

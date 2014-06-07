@@ -11,7 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
-public class UpgradableShipAttribute extends ShipAttribute {
+public class UpgradableShipAttribute extends ShipAttribute<UpgradableShipAttribute.Choices> {
 
 	public enum Choices {
 		Cannons, Crew, Armor, Health
@@ -26,6 +26,7 @@ public class UpgradableShipAttribute extends ShipAttribute {
 		type = choice;
 	}
 
+	@Override
 	public Choices getType() {
 		return type;
 	}

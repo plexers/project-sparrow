@@ -11,11 +11,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
-public class StandardShipAttribute extends ShipAttribute {
+public class StandardShipAttribute extends ShipAttribute<StandardShipAttribute.Choices> {
 	private Choices type;
 
 	public enum Choices {
 		MaxCannons, MaxCrew, MaxHealth
+	}
+
+	@Override
+	public Choices getType() {
+		return type;
 	}
 
 	private StandardShipAttribute(Map<String, Object> props) {

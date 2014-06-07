@@ -6,7 +6,7 @@ import java.util.Map;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 
-public abstract class ShipAttribute {
+public abstract class ShipAttribute<Choices> {
 	protected String name;
 	private int value;
 
@@ -33,5 +33,7 @@ public abstract class ShipAttribute {
 		jgen.writeStringField("name", name);
 		jgen.writeNumberField("value", value);
 	}
+	
+	public abstract Choices getType();
 
 }
