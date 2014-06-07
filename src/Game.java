@@ -282,7 +282,7 @@ public class Game {
 		}
 
 		try {
-			battle.submitTurnAndWaitForOpponent(turn);
+			pushTurn(battle.submitTurnAndWaitForOpponent(turn));
 		} catch (TimeoutException e) {
 			System.out.println(e.getMessage());
 		}
