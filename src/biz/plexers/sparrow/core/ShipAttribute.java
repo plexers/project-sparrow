@@ -3,12 +3,10 @@ package biz.plexers.sparrow.core;
 import java.io.IOException;
 import java.util.Map;
 
-import biz.plexers.sparrow.db.Arggg;
-
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 
-public abstract class ShipAttribute extends Arggg {
+public abstract class ShipAttribute {
 	protected String name;
 	private int value;
 
@@ -19,6 +17,10 @@ public abstract class ShipAttribute extends Arggg {
 	public void consume(ShipAttribute other) {
 		this.value += other.value;
 
+	}
+
+	public int getValue() {
+		return value;
 	}
 
 	protected ShipAttribute(Map<String, Object> props) {

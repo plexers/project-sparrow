@@ -3,6 +3,8 @@ package biz.plexers.sparrow.core;
 import java.io.IOException;
 import java.util.Map;
 
+import biz.plexers.sparrow.db.DbHelper;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,7 +32,7 @@ public class UpgradableShipAttribute extends ShipAttribute {
 
 	private UpgradableShipAttribute(Map<String, Object> props) {
 		super(props);
-		type = (Choices) props.get("type");
+		type = DbHelper.mapAsObject(props.get("type"), UpgradableShipAttribute.Choices.class);
 	}
 
 	@JsonCreator

@@ -3,22 +3,25 @@ package biz.plexers.sparrow.core;
 import java.io.IOException;
 import java.util.Map;
 
+import biz.plexers.sparrow.db.DbHelper;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
-public class StandardShipAttribute extends ShipAttribute{
+public class StandardShipAttribute extends ShipAttribute {
 	private Choices type;
-	
+
 	public enum Choices {
 		MaxCannons, MaxCrew, MaxHealth
 	}
-	
+
 	private StandardShipAttribute(Map<String, Object> props) {
 		super(props);
-		type = (Choices) props.get("type");
+		type = DbHelper.mapAsObject(props.get("type"),
+				StandardShipAttribute.Choices.class);
 	}
 
 	@JsonCreator
