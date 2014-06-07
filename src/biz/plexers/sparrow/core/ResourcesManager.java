@@ -70,10 +70,10 @@ public class ResourcesManager {
 		double exp = UserManager.getPirate().getExperience();
 		
 		//TODO Balance Calculations 
-		int cannons 	= (int) Math.ceil(exp/100 * (1+difficulty/3) * (1- Math.random()*0.2));
-		int crew		= (int) Math.ceil(exp/100 * (1+difficulty/3) * (1- Math.random()*0.2));
-		int lumber 		= (int) Math.ceil(exp/010 * (1+difficulty/3) * (1- Math.random()*0.2));
-		int metal 		= (int) Math.ceil(exp/050 * (1+difficulty/3) * (1- Math.random()*0.2));
+		int cannons 	= (int) Math.ceil(exp/100 * (1+difficulty/3.0) * (1- Math.random()*0.2));
+		int crew		= (int) Math.ceil(exp/100 * (1+difficulty/3.0) * (1- Math.random()*0.2));
+		int lumber 		= (int) Math.ceil(exp/010 * (1+difficulty/3.0) * (1- Math.random()*0.2));
+		int metal 		= (int) Math.ceil(exp/050 * (1+difficulty/3.0) * (1- Math.random()*0.2));
 		
 		ResourcesManager islandResourcesManager = new ResourcesManager(cannons, crew, lumber, metal);
 		return islandResourcesManager;

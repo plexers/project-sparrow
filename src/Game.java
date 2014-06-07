@@ -1,10 +1,13 @@
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
 
 import biz.plexers.sparrow.core.Pirate;
 import biz.plexers.sparrow.core.Resource;
+import biz.plexers.sparrow.core.Resource.Choices;
 import biz.plexers.sparrow.core.ResourcesManager;
 import biz.plexers.sparrow.core.Ship;
 import biz.plexers.sparrow.core.UserManager;
@@ -156,25 +159,28 @@ public class Game {
 		List<Island> islandsList = IslandManager.getIslands();
 		System.out.println("Available Islands: ");
 		for (int i=0; i<islandsList.size(); i++) {
-			System.out.println( (i+1) +  ". "
-					+ "Success Change: " + (int) (Raid.calculateSuccessRate(islandsList.get(i))*100) + "%");
-			//TODO print available Island's resources
-		}
+			
+			Map<Resource.Choices, Resource> islandResources = islandsList.get(i).getResourcesManager().getResources();
+			int cannons = islandResources.get(Choices.Cannons).getQuantity();
+			int crew = islandResources.get(Choices.Crew).getQuantity();
+			int lumber = islandResources.get(Choices.Lumber).getQuantity();
+			int metal = islandResources.get(Choices.Metal).getQuantity();
+			System.out.println( (i+1) +  ". " + "Cannons:" + cannons + " Crew:" + crew + " Lumber:" + lumber + " Metal:" + metal
+					+ " Success Chance: " + (int) (Raid.calculateSuccessRate(islandsList.get(i))*100) + "%");
+}
 		System.out.println("Select Island:");
 		int choice = Integer.parseInt(s.next()) - 1;
 		if (choice<=islandsList.size()){
-			if (Raid.isRaidSuccesful(islandsList.get(choice))){
-				UserManager.getPirate().giveResources(islandsList.get(choice).getResourcesManager());
+			Island selectedIsland = islandsList.get(choice);
+			if (Raid.isRaidSuccesful(selectedIsland)){
+				UserManager.getPirate().takeResources(selectedIsland.getResourcesManager());
 				DbManager.savePirate();
 				System.out.println("Raid Succesful!");
 			}
 			else{
 				System.out.println("Raid Unsuccesful :(");
 			}
-		}
-		
-		
-		
+		}	
 	}
 
 	private static void buyShip() {

@@ -17,13 +17,16 @@ public class Resource {
 
 	@Override
 	public String toString() {
-		return name + quantity;
+		return name;
+	}
+
+	public int getQuantity() {
+		return quantity;
 	}
 
 	private String name;
 	private int quantity;
 	private Choices type;
-	
 	private double unitPrice;
 
 	public Resource(Choices type) {
