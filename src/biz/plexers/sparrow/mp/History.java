@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import biz.plexers.sparrow.core.UserManager;
 import biz.plexers.sparrow.db.DbHelper;
+import biz.plexers.sparrow.mp.exceptions.InsufficientCrewException;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -23,8 +25,10 @@ public class History {
 		historyList = new ArrayList<>();
 	}
 
-	public boolean pushTurn(Turn turn) {
-		return historyList.add(turn);
+	public boolean pushTurn(Turn turn) throws InsufficientCrewException {
+		if (UserManager.getPirate().isDoable(turn))
+			return historyList.add(turn);
+		throw new InsufficientCrewException();
 	}
 
 	private History(Map<String, Object> props) {

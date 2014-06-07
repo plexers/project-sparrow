@@ -32,6 +32,10 @@ public class Action {
 		return type;
 	}
 
+	public int getAssignedCrew() {
+		return assignedCrew;
+	}
+
 	private Action(Map<String, Object> props) {
 		name = (String) props.get("name");
 		assignedCrew = (int) props.get("assignedCrew");
@@ -54,7 +58,7 @@ public class Action {
 			jgen.writeStringField("name", value.name);
 			jgen.writeNumberField("assignedCrew", value.assignedCrew);
 			jgen.writeObjectField("type", value.type);
-			
+
 			jgen.writeEndObject();
 
 		}

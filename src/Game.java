@@ -16,6 +16,7 @@ import biz.plexers.sparrow.mp.Action;
 import biz.plexers.sparrow.mp.Battle;
 import biz.plexers.sparrow.mp.BattleManager;
 import biz.plexers.sparrow.mp.Turn;
+import biz.plexers.sparrow.mp.exceptions.InsufficientCrewException;
 import biz.plexers.sparrow.sp.ResourceMarket;
 import biz.plexers.sparrow.sp.ShipMarket;
 
@@ -281,10 +282,14 @@ public class Game {
 			turn.addAction(tempAction);
 		}
 
-		try {
-			pushTurn(battle.submitTurnAndWaitForOpponent(turn));
-		} catch (TimeoutException e) {
-			System.out.println(e.getMessage());
-		}
+			try {
+				pushTurn(battle.submitTurnAndWaitForOpponent(turn));
+			} catch (TimeoutException e) {
+				System.out.println(e.getMessage());
+			} catch (InsufficientCrewException e) {
+				System.out.println(e.getMessage());
+				System.out.println("Try Again!");
+				pushTurn(battle);
+			}
 	}
 }

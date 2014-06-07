@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import biz.plexers.sparrow.db.DbHelper;
+import biz.plexers.sparrow.mp.Action.Choices;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -19,11 +20,20 @@ public class Turn {
 	Map<Action.Choices, Action> actions;
 
 	public Turn() {
-		actions = new HashMap();
+		actions = new HashMap<Choices, Action>();
 	}
 
 	public void addAction(Action a) {
 		actions.put(a.getType(), a);
+	}
+
+	public int getCrewRequirements() {
+		int total = 0;
+		for (Action a : actions.values()) {
+			total += a.getAssignedCrew();
+		}
+
+		return total;
 	}
 
 	private Turn(Map<String, Object> props) {

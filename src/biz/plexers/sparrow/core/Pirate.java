@@ -7,6 +7,7 @@ import java.util.Map;
 import biz.plexers.sparrow.db.Arggg;
 import biz.plexers.sparrow.db.DbHelper;
 import biz.plexers.sparrow.db.DbManager;
+import biz.plexers.sparrow.mp.Turn;
 import biz.plexers.sparrow.sp.ResourceMarket;
 import biz.plexers.sparrow.sp.ShipMarket;
 
@@ -104,9 +105,13 @@ public class Pirate extends Arggg {
 		ship = null;
 		DbManager.savePirate();
 	}
-	
+
 	public boolean pay(Upgrade upgrade) {
-		return resourcesManager.subtract(upgrade.getRequirements()); 
+		return resourcesManager.subtract(upgrade.getRequirements());
+	}
+
+	public boolean isDoable(Turn t) {
+		return ship.hasEnoughCrewFor(t);
 	}
 
 	@SuppressWarnings("unchecked")

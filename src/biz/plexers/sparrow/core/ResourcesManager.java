@@ -44,6 +44,10 @@ public class ResourcesManager {
 		return false;
 	}
 
+	public int getQuantityOf(Resource.Choices type) {
+		return resources.get(type).getQuantity();
+	}
+
 	public boolean subtract(ResourcesManager other) {
 		for (Resource r : other.resources.values()) {
 			if (!changeResourceBy(r.getType(), -r.getQuantity())) {

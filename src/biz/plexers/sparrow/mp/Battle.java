@@ -1,7 +1,6 @@
 package biz.plexers.sparrow.mp;
 
 import java.io.IOException;
-import java.sql.Savepoint;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -11,6 +10,7 @@ import biz.plexers.sparrow.core.UserManager;
 import biz.plexers.sparrow.db.Arggg;
 import biz.plexers.sparrow.db.DbHelper;
 import biz.plexers.sparrow.db.DbManager;
+import biz.plexers.sparrow.mp.exceptions.InsufficientCrewException;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -41,8 +41,8 @@ public class Battle extends Arggg {
 		}
 	}
 
-	public Battle submitTurnAndWaitForOpponent(Turn turn)
-			throws TimeoutException {
+	public Battle submitTurnAndWaitForOpponent(Turn turn) throws TimeoutException,
+			InsufficientCrewException {
 		history.pushTurn(turn);
 		Battle newBattle = submitAndWait();
 		applyResult();
