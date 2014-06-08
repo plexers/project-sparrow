@@ -6,7 +6,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import biz.plexers.sparrow.core.InBattleShipAttribute;
+import biz.plexers.sparrow.core.Pirate;
 import biz.plexers.sparrow.core.Player;
+import biz.plexers.sparrow.core.ResourcesManager;
 import biz.plexers.sparrow.core.Ship;
 import biz.plexers.sparrow.core.UpgradableShipAttribute;
 import biz.plexers.sparrow.core.UserManager;
@@ -71,34 +73,41 @@ public class Battle extends Arggg {
 	public void applyResult(Turn turn) {
 		Ship myShip;
 		Ship enemyShip;
+		Pirate myPirate;
 		if (this.history.amIplayer1()){
 			myShip = this.player1.getPirate().getShip();
 			enemyShip = this.player2.getPirate().getShip();
+			myPirate = player1.getPirate();
 		}
 		else{
 			myShip = this.player2.getPirate().getShip();
 			enemyShip = this.player1.getPirate().getShip();
+			myPirate = player2.getPirate();
 		}
 		
 		int attackCrew = turn.actions.get(Choices.AttackUsingCannons).getAssignedCrew();
 		applyAttackAction(myShip, enemyShip, attackCrew);
 		int repairCrew = turn.actions.get(Choices.RepairShip).getAssignedCrew();
-		applyRepairAction(myShip, enemyShip, repairCrew);
+		applyRepairAction(myShip, myPirate, repairCrew);
 		int LoadCrew = turn.actions.get(Choices.LoadCannons).getAssignedCrew();
-		applyLoadCannonsAction(myShip, enemyShip, LoadCrew);
+		applyLoadCannonsAction(myShip, LoadCrew);
 		
 				
 	}
 	
-	private void applyLoadCannonsAction(Ship myShip, Ship enemyShip,int loadCrew) {
-		int newlyLoaded = (int) Math.min(loadCrew, myShip.getUpgradableShipAttributeValue(UpgradableShipAttribute.Choices.Cannons) 
-				- myShip.getInBattleShipAttributeValue(InBattleShipAttribute.Choices.LoadedCannons));
+	private void applyLoadCannonsAction(Ship myShip, int loadCrew) {
+		int shipCannons =  (int)myShip.getUpgradableShipAttributeValue(UpgradableShipAttribute.Choices.Cannons);
+		int loadedCannons = (int)myShip.getInBattleShipAttributeValue(InBattleShipAttribute.Choices.LoadedCannons);
+		int newlyLoaded = (int) Math.min(loadCrew, shipCannons - loadedCannons);
 		myShip.changeInBattleShipAttributeBy(InBattleShipAttribute.Choices.LoadedCannons, newlyLoaded);
 	}
 
-	private void applyRepairAction(Ship myShip, Ship enemyShip, int repairCrew) {
-		// TODO Auto-generated method stub
-		
+	private void applyRepairAction(Ship myShip, Pirate myPirate, int repairCrew) {
+		int repairAmount;
+		int availableWood = myPirate.getLumber();
+		repairAmount = Math.min(repairCrew*4, availableWood);
+		if (myPirate.useLumberQuantity(repairAmount))
+			myShip.changeInBattleShipAttributeBy(InBattleShipAttribute.Choices.DamageTaken, -repairAmount);
 	}
 
 	private void applyAttackAction(Ship myShip, Ship enemyShip, int attackCrew){

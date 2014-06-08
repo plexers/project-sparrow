@@ -56,6 +56,13 @@ public class ResourcesManager {
 		}
 		return true;
 	}
+	
+	public boolean subtract(Resource resource){
+		if (!changeResourceBy(resource.getType(), -resource.getQuantity())) {
+			return false;
+		}
+	return true;
+	}
 
 	public void consume(ResourcesManager other) {
 

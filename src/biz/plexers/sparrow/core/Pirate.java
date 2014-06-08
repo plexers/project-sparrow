@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import biz.plexers.sparrow.core.Resource.Choices;
 import biz.plexers.sparrow.db.Arggg;
 import biz.plexers.sparrow.db.DbHelper;
 import biz.plexers.sparrow.db.DbManager;
@@ -97,6 +98,15 @@ public class Pirate extends Arggg {
 
 	public Ship getShip() {
 		return ship;
+	}
+	
+	public int getLumber(){
+		return this.resourcesManager.getQuantityOf(Choices.Lumber);
+	}
+	
+	public boolean useLumberQuantity(int lumber){
+		Resource usedLumber = new Resource(Choices.Lumber, lumber);
+		return resourcesManager.subtract(usedLumber);
 	}
 
 	public void sellShip() {
