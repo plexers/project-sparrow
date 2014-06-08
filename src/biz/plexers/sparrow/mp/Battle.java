@@ -105,7 +105,9 @@ public class Battle extends Arggg {
 	private void applyRepairAction(Ship myShip, Pirate myPirate, int repairCrew) {
 		int repairAmount;
 		int availableWood = myPirate.getLumber();
-		repairAmount = Math.min(repairCrew*4, availableWood);
+		int damageTaken = (int) myShip.getInBattleShipAttributeValue(InBattleShipAttribute.Choices.DamageTaken);
+		repairAmount = Math.min(repairCrew*3, availableWood);
+		if (repairAmount > damageTaken) repairAmount = damageTaken;
 		if (myPirate.useLumberQuantity(repairAmount))
 			myShip.changeInBattleShipAttributeBy(InBattleShipAttribute.Choices.DamageTaken, -repairAmount);
 	}
