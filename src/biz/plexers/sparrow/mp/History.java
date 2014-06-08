@@ -39,7 +39,7 @@ public class History {
 	}
 	
 	public boolean amIplayer1(){
-		return (this.historyList.size() % 2 == 1);
+		return (this.historyList.size() % 2 == 0);
 	}
 
 	@JsonCreator
