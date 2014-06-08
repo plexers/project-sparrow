@@ -50,9 +50,9 @@ public class Battle extends Arggg {
 
 	public Battle submitTurnAndWaitForOpponent(Turn turn)
 			throws TimeoutException, InsufficientCrewException {
+		applyResult(turn);
 		history.pushTurn(turn);
 		Battle newBattle = submitAndWait();
-		applyResult(turn);
 		return newBattle;
 
 	}
