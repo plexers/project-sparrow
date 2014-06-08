@@ -46,16 +46,18 @@ public class Ship extends Arggg {
 		DbManager.savePirate();
 
 	}
+	
+	private int availableCrew(){
+		UpgradableShipAttribute.Choices upgradableType = UpgradableShipAttribute.Choices.Crew;
+		UpgradableShipAttribute crewOnBoard = upgradableShipAttributes.get(upgradableType);
+		InBattleShipAttribute.Choices inbattleType = InBattleShipAttribute.Choices.WoundedCrew;
+		InBattleShipAttribute woundedCrew = inBattleShipAttributes.get(inbattleType);
+		return crewOnBoard.getValue() - woundedCrew.getValue();
+	}
 
 	public boolean hasEnoughCrewFor(Turn t) {
 		int crewRequirements = t.getCrewRequirements();
-		UpgradableShipAttribute.Choices upgradableType = UpgradableShipAttribute.Choices.Crew;
-		UpgradableShipAttribute crewOnBoard = upgradableShipAttributes
-				.get(upgradableType);
-		InBattleShipAttribute.Choices inbattleType = InBattleShipAttribute.Choices.WoundedCrew;
-		InBattleShipAttribute woundedCrew = inBattleShipAttributes
-				.get(inbattleType);
-		int availableCrew = crewOnBoard.getValue() - woundedCrew.getValue();
+		int availableCrew = this.availableCrew();
 		return crewRequirements <= availableCrew;
 	}
 
@@ -69,6 +71,21 @@ public class Ship extends Arggg {
 		}
 	}
 
+	public double getAttributeValue(ShipAttribute<Choices> choice){
+		ShipAttribute<InBattleShipAttribute.Choices> chosenAttribute = this.inBattleShipAttributes.get(choice);
+		if (chosenAttribute != null) return chosenAttribute.getValue();
+		return this.upgradableShipAttributes.get(choice).getValue();
+	}
+	
+	public boolean changeAttributeBy(ShipAttribute<Choices> choice, double offset){
+		ShipAttribute<InBattleShipAttribute.Choices> chosenAttribute = this.inBattleShipAttributes.get(choice);
+		if (chosenAttribute != null){
+			chosenAttribute.changeValueBy(offset);
+			return true;
+		}
+		return false;
+	}
+	
 	public double getPresentValue() {
 		// TODO Improve Calculations
 		return goldValue;
