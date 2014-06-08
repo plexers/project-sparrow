@@ -91,8 +91,9 @@ public class Battle extends Arggg {
 	}
 	
 	private void applyLoadCannonsAction(Ship myShip, Ship enemyShip,int loadCrew) {
-		// TODO Auto-generated method stub
-		
+		int newlyLoaded = (int) Math.min(loadCrew, myShip.getUpgradableShipAttributeValue(UpgradableShipAttribute.Choices.Cannons) 
+				- myShip.getInBattleShipAttributeValue(InBattleShipAttribute.Choices.LoadedCannons));
+		myShip.changeInBattleShipAttributeBy(InBattleShipAttribute.Choices.LoadedCannons, newlyLoaded);
 	}
 
 	private void applyRepairAction(Ship myShip, Ship enemyShip, int repairCrew) {
