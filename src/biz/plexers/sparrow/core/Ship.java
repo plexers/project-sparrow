@@ -80,13 +80,11 @@ public class Ship extends Arggg {
 	}
 	
 	
-	public boolean changeAttributeBy(ShipAttribute<Choices> choice, double offset){
-		ShipAttribute<InBattleShipAttribute.Choices> chosenAttribute = this.inBattleShipAttributes.get(choice);
-		if (chosenAttribute != null){
-			chosenAttribute.changeValueBy(offset);
-			return true;
-		}
-		return false;
+	public void changeUpgradableShipAttributeBy(UpgradableShipAttribute.Choices choice, double offset){
+		this.upgradableShipAttributes.get(choice).changeValueBy(offset);
+	}
+	public void changeInBattleShipAttributeBy(InBattleShipAttribute.Choices choice, double offset){
+		this.inBattleShipAttributes.get(choice).changeValueBy(offset);
 	}
 	
 	public double getPresentValue() {
