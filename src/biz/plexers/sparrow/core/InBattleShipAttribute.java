@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 public class InBattleShipAttribute extends ShipAttribute<InBattleShipAttribute.Choices> {
 
 	public enum Choices {
-		WoundedCrew, LoadedCannons
+		WoundedCrew, LoadedCannons, DamageTaken
 	}
 
 	private Choices type;
