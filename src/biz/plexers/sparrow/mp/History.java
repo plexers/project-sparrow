@@ -37,6 +37,10 @@ public class History {
 				new TypeReference<List<Turn>>() {
 				});
 	}
+	
+	public boolean amIplayer1(){
+		return (this.historyList.size() % 2 == 1);
+	}
 
 	@JsonCreator
 	public static History factory(Map<String, Object> props) {

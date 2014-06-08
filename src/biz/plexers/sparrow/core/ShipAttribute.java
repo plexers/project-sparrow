@@ -26,6 +26,10 @@ public abstract class ShipAttribute<Choices> {
 	public void setValue(int value) {
 		this.value = value;
 	}
+	
+	public void changeValueBy(double offset){
+		this.value+= offset;
+	}
 
 	protected ShipAttribute(Map<String, Object> props) {
 		name = (String) props.get("name");
