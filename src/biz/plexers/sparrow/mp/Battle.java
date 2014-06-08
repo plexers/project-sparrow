@@ -5,11 +5,15 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import biz.plexers.sparrow.core.InBattleShipAttribute;
 import biz.plexers.sparrow.core.Player;
+import biz.plexers.sparrow.core.Ship;
+import biz.plexers.sparrow.core.UpgradableShipAttribute;
 import biz.plexers.sparrow.core.UserManager;
 import biz.plexers.sparrow.db.Arggg;
 import biz.plexers.sparrow.db.DbHelper;
 import biz.plexers.sparrow.db.DbManager;
+import biz.plexers.sparrow.mp.Action.Choices;
 import biz.plexers.sparrow.mp.exceptions.InsufficientCrewException;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -46,7 +50,7 @@ public class Battle extends Arggg {
 			throws TimeoutException, InsufficientCrewException {
 		history.pushTurn(turn);
 		Battle newBattle = submitAndWait();
-		applyResult();
+		applyResult(turn);
 		return newBattle;
 
 	}
@@ -64,8 +68,36 @@ public class Battle extends Arggg {
 		return newBattle;
 	}
 
-	public void applyResult() {
-
+	public void applyResult(Turn turn) {
+		Ship myShip;
+		Ship enemyShip;
+		if (this.history.amIplayer1()){
+			myShip = this.player1.getPirate().getShip();
+			enemyShip = this.player2.getPirate().getShip();
+		}
+		else{
+			myShip = this.player2.getPirate().getShip();
+			enemyShip = this.player1.getPirate().getShip();
+		}
+		
+		int attackCrew = turn.actions.get(Choices.AttackUsingCannons).getAssignedCrew();
+		double firedCannons = Math.min(attackCrew, myShip.getInBattleShipAttributeValue(InBattleShipAttribute.Choices.LoadedCannons));
+		myShip.changeInBattleShipAttributeBy(InBattleShipAttribute.Choices.LoadedCannons, -firedCannons);
+		double enemyArmor= enemyShip.getUpgradableShipAttributeValue(UpgradableShipAttribute.Choices.Armor);
+		int damageTaken= (int) Math.floor(firedCannons*(100/(100+enemyArmor)*(1.1-Math.random()*0.2)));
+		enemyShip.changeInBattleShipAttributeBy(InBattleShipAttribute.Choices.DamageTaken, damageTaken);
+		
+		double crewWoundChance = damageTaken / enemyShip.getUpgradableShipAttributeValue(UpgradableShipAttribute.Choices.Health);
+		int enemyCrew = (int) Math.floor(enemyShip.getUpgradableShipAttributeValue(UpgradableShipAttribute.Choices.Crew));
+		int enemyWoundedCrew =  (int) Math.floor(enemyShip.getInBattleShipAttributeValue(InBattleShipAttribute.Choices.WoundedCrew));
+		int newlyWounded= 0;
+		for(int i=enemyWoundedCrew; i<= enemyCrew; i++){
+			if (Math.random()<= crewWoundChance) newlyWounded++;
+		}
+		enemyShip.changeInBattleShipAttributeBy(InBattleShipAttribute.Choices.WoundedCrew, newlyWounded);
+		
+		
+		
 	}
 
 	public void addPlayer() {
