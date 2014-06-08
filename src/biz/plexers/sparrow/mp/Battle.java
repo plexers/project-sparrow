@@ -81,6 +81,26 @@ public class Battle extends Arggg {
 		}
 		
 		int attackCrew = turn.actions.get(Choices.AttackUsingCannons).getAssignedCrew();
+		applyAttackAction(myShip, enemyShip, attackCrew);
+		int repairCrew = turn.actions.get(Choices.RepairShip).getAssignedCrew();
+		applyRepairAction(myShip, enemyShip, repairCrew);
+		int LoadCrew = turn.actions.get(Choices.LoadCannons).getAssignedCrew();
+		applyLoadCannonsAction(myShip, enemyShip, LoadCrew);
+		
+				
+	}
+	
+	private void applyLoadCannonsAction(Ship myShip, Ship enemyShip,int loadCrew) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void applyRepairAction(Ship myShip, Ship enemyShip, int repairCrew) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void applyAttackAction(Ship myShip, Ship enemyShip, int attackCrew){
 		double firedCannons = Math.min(attackCrew, myShip.getInBattleShipAttributeValue(InBattleShipAttribute.Choices.LoadedCannons));
 		myShip.changeInBattleShipAttributeBy(InBattleShipAttribute.Choices.LoadedCannons, -firedCannons);
 		double enemyArmor= enemyShip.getUpgradableShipAttributeValue(UpgradableShipAttribute.Choices.Armor);
@@ -94,10 +114,7 @@ public class Battle extends Arggg {
 		for(int i=enemyWoundedCrew; i<= enemyCrew; i++){
 			if (Math.random()<= crewWoundChance) newlyWounded++;
 		}
-		enemyShip.changeInBattleShipAttributeBy(InBattleShipAttribute.Choices.WoundedCrew, newlyWounded);
-		
-		
-		
+		enemyShip.changeInBattleShipAttributeBy(InBattleShipAttribute.Choices.WoundedCrew, newlyWounded);		
 	}
 
 	public void addPlayer() {
