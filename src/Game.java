@@ -1,19 +1,24 @@
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
 
 import biz.plexers.sparrow.core.Pirate;
 import biz.plexers.sparrow.core.Resource;
+import biz.plexers.sparrow.core.Resource.Choices;
 import biz.plexers.sparrow.core.ResourcesManager;
 import biz.plexers.sparrow.core.Ship;
 import biz.plexers.sparrow.core.UserManager;
+import biz.plexers.sparrow.db.DbManager;
 import biz.plexers.sparrow.db.exceptions.SignInException;
 import biz.plexers.sparrow.db.exceptions.SignUpException;
 import biz.plexers.sparrow.mp.Battle;
 import biz.plexers.sparrow.mp.BattleManager;
 import biz.plexers.sparrow.sp.Island;
 import biz.plexers.sparrow.sp.IslandManager;
+import biz.plexers.sparrow.sp.Raid;
 import biz.plexers.sparrow.sp.ResourceMarket;
 import biz.plexers.sparrow.sp.ShipMarket;
 
@@ -152,11 +157,30 @@ public class Game {
 
 		IslandManager.createIslands();
 		List<Island> islandsList = IslandManager.getIslands();
-		
-		System.out.println("Select dificulty: 1.Easy 2.Medium 3.Hard");
-		int choice = Integer.parseInt(s.next());
-		
-		
+		System.out.println("Available Islands: ");
+		for (int i=0; i<islandsList.size(); i++) {
+			
+			Map<Resource.Choices, Resource> islandResources = islandsList.get(i).getResourcesManager().getResources();
+			int cannons = islandResources.get(Choices.Cannons).getQuantity();
+			int crew = islandResources.get(Choices.Crew).getQuantity();
+			int lumber = islandResources.get(Choices.Lumber).getQuantity();
+			int metal = islandResources.get(Choices.Metal).getQuantity();
+			System.out.println( (i+1) +  ". " + "Cannons:" + cannons + " Crew:" + crew + " Lumber:" + lumber + " Metal:" + metal
+					+ " Success Chance: " + (int) (Raid.calculateSuccessRate(islandsList.get(i))*100) + "%");
+}
+		System.out.println("Select Island:");
+		int choice = Integer.parseInt(s.next()) - 1;
+		if (choice<=islandsList.size()){
+			Island selectedIsland = islandsList.get(choice);
+			if (Raid.isRaidSuccesful(selectedIsland)){
+				UserManager.getPirate().takeResources(selectedIsland.getResourcesManager());
+				DbManager.savePirate();
+				System.out.println("Raid Succesful!");
+			}
+			else{
+				System.out.println("Raid Unsuccesful :(");
+			}
+		}	
 	}
 
 	private static void buyShip() {

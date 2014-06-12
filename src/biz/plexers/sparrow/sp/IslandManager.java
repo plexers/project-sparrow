@@ -7,14 +7,17 @@ import java.util.List;
 
 public class IslandManager {
 	
-	private List<Island> islands;
+	private static List<Island> islands;
 	
 	public static void createIslands(){
-		List<Island> islands = new ArrayList<Island>();
-		
+		islands = new ArrayList<Island>();
+		for(int difficulty=0; difficulty < 3; difficulty++){
+			islands.add(difficulty, new Island(difficulty));
+		}
+				
 	}
 	
-	public static Island getIslands(){
+	public static List<Island> getIslands(){
 		return Collections.unmodifiableList(islands);
 	}
 

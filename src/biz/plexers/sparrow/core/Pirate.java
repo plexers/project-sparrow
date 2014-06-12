@@ -68,6 +68,10 @@ public class Pirate extends Arggg {
 		}
 
 	}
+	
+	public void takeResources(ResourcesManager otherResourcesManager){
+		this.resourcesManager.consume(otherResourcesManager);
+	}
 
 	public boolean pay(double money) {
 

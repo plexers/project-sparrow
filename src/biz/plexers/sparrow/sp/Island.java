@@ -11,6 +11,14 @@ public class Island {
 		this.difficulty = difficulty;
 		resourcesManager= ResourcesManager.islandResources(difficulty);
 	}
+
+	public ResourcesManager getResourcesManager() {
+		return resourcesManager;
+	}
+
+	public int getDifficulty() {
+		return difficulty;
+	}
 	
 	
 }
