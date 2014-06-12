@@ -5,3 +5,7 @@ Sails of Liberty (codename: project-sparrow) is a pirate-themed game implemented
 
 #### Contribute
 We are (of course) open to pull requests! Known practices apply.
+
+
+#### License
+Code released under the MIT License. See [LICENSE](LICENSE).
