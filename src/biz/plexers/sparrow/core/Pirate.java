@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import biz.plexers.sparrow.core.Resource.Choices;
 import biz.plexers.sparrow.db.Arggg;
 import biz.plexers.sparrow.db.DbHelper;
 import biz.plexers.sparrow.db.DbManager;
+import biz.plexers.sparrow.mp.Turn;
 import biz.plexers.sparrow.sp.ResourceMarket;
 import biz.plexers.sparrow.sp.ShipMarket;
 
@@ -96,6 +98,34 @@ public class Pirate extends Arggg {
 
 	public double getGold() {
 		return gold;
+	}
+
+	public Ship getShip() {
+		return ship;
+	}
+	
+	public int getLumber(){
+		return this.resourcesManager.getQuantityOf(Choices.Lumber);
+	}
+	
+	public boolean useLumberQuantity(int lumber){
+		Resource usedLumber = new Resource(Choices.Lumber, lumber);
+		return resourcesManager.subtract(usedLumber);
+	}
+
+	public void sellShip() {
+		double goldValue = ship.getPresentValue();
+		gold += goldValue;
+		ship = null;
+		DbManager.savePirate();
+	}
+
+	public boolean pay(Upgrade upgrade) {
+		return resourcesManager.subtract(upgrade.getRequirements());
+	}
+
+	public boolean isDoable(Turn t) {
+		return ship.hasEnoughCrewFor(t);
 	}
 
 	@SuppressWarnings("unchecked")

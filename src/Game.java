@@ -10,15 +10,20 @@ import biz.plexers.sparrow.core.Resource;
 import biz.plexers.sparrow.core.Resource.Choices;
 import biz.plexers.sparrow.core.ResourcesManager;
 import biz.plexers.sparrow.core.Ship;
+import biz.plexers.sparrow.core.UpgradableShipAttribute;
+import biz.plexers.sparrow.core.Upgrade;
 import biz.plexers.sparrow.core.UserManager;
 import biz.plexers.sparrow.db.DbManager;
 import biz.plexers.sparrow.db.exceptions.SignInException;
 import biz.plexers.sparrow.db.exceptions.SignUpException;
+import biz.plexers.sparrow.mp.Action;
 import biz.plexers.sparrow.mp.Battle;
 import biz.plexers.sparrow.mp.BattleManager;
 import biz.plexers.sparrow.sp.Island;
 import biz.plexers.sparrow.sp.IslandManager;
 import biz.plexers.sparrow.sp.Raid;
+import biz.plexers.sparrow.mp.Turn;
+import biz.plexers.sparrow.mp.exceptions.InsufficientCrewException;
 import biz.plexers.sparrow.sp.ResourceMarket;
 import biz.plexers.sparrow.sp.ShipMarket;
 
@@ -106,27 +111,34 @@ public class Game {
 
 	private static void singlePlayer() {
 		if (!UserManager.shipExists()) {
-			ShipMarket shipMarket = ShipMarket.getInstance();
-			List<Ship> ships = shipMarket.getShips();
-			for (int i = 0; i < ships.size(); i++) {
-				Ship s = ships.get(i);
-				System.out.println((i + 1) + ". " + s.getName());
-			}
-
-			int choice = Game.s.nextInt();
+			ShipMarket shipMarket = createShipMarket();
 			try {
-				pirate.buyShip(shipMarket, choice - 1);
+
+				chooseShip(shipMarket);
+				System.out.print("Give a name for your pirate: ");
+				String name = s.next();
+				pirate.setName(name);
+				System.out.println("Successfully created your pirate !!!");
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
-
-			System.out.print("Give a name for your pirate: ");
-			String name = s.next();
-			pirate.setName(name);
-			System.out.println("Successfully created your pirate !!!");
 		}
-
 		singlePlayerChoices();
+	}
+
+	private static void chooseShip(ShipMarket shipMarket) throws Exception {
+		int choice = Game.s.nextInt();
+		pirate.buyShip(shipMarket, choice - 1);
+	}
+
+	private static ShipMarket createShipMarket() {
+		ShipMarket shipMarket = ShipMarket.getInstance();
+		List<Ship> ships = shipMarket.getShips();
+		for (int i = 0; i < ships.size(); i++) {
+			Ship s = ships.get(i);
+			System.out.println((i + 1) + ". " + s.getName());
+		}
+		return shipMarket;
 	}
 
 	private static void singlePlayerChoices() {
@@ -185,6 +197,21 @@ public class Game {
 
 	private static void buyShip() {
 
+		if (UserManager.shipExists()) {
+			System.out.print("Do you want to sell your ship? :");
+			if (s.next().equalsIgnoreCase("yes")) {
+				UserManager.getPirate().sellShip();
+				ShipMarket shipMarket = createShipMarket();
+				try {
+					chooseShip(shipMarket);
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+			}
+
+		}
+		mainWindow();
+
 	}
 
 	private static void buyResources() {
@@ -209,7 +236,20 @@ public class Game {
 	}
 
 	private static void upgradeShip() {
+		System.out.println("Enter upgrade values: ");
+		Upgrade upgrade = new Upgrade();
+		for (UpgradableShipAttribute.Choices choice : UpgradableShipAttribute.Choices
+				.values()) {
+			System.out.print(choice.name() + " : ");
+			int value = s.nextInt();
+			upgrade.setAttribute(choice, value);
 
+		}
+		try {
+			UserManager.getShip().applyUpgrade(upgrade);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	private static void multiPlayer() {
@@ -238,22 +278,51 @@ public class Game {
 
 	private static void joinMpBattle() {
 		List<String> openBattles = BattleManager.getBattleList();
-		System.out.print("Available Battles :");
+		System.out.println("Available Battles :");
 
 		for (int i = 0; i < openBattles.size(); i++) {
 			System.out.println(i + ": " + openBattles.get(i));
 		}
 		System.out.print("Choose Battle :");
 		int choice = s.nextInt();
-		Battle battle = BattleManager.choose(choice);
+		try {
+			Battle battle = BattleManager.choose(choice);
+			pushTurn(battle);
+		} catch (TimeoutException e) {
+			System.out.println(e.getMessage());
+		}
 
 	}
 
 	private static void createMpBattle() {
 		try {
 			Battle battle = Battle.getInstance();
+			pushTurn(battle);
 		} catch (TimeoutException e) {
 			System.out.println(e.getMessage());
 		}
+	}
+
+	private static void pushTurn(Battle battle) {
+		Turn turn = new Turn();
+
+		System.out.println("Enter the crew for each action: ");
+
+		for (Action.Choices choice : Action.Choices.values()) {
+			System.out.print("Enter crew for " + choice.name() + ": ");
+			int crew = s.nextInt();
+			Action tempAction = new Action(choice, crew);
+			turn.addAction(tempAction);
+		}
+
+			try {
+				pushTurn(battle.submitTurnAndWaitForOpponent(turn));
+			} catch (TimeoutException e) {
+				System.out.println(e.getMessage());
+			} catch (InsufficientCrewException e) {
+				System.out.println(e.getMessage());
+				System.out.println("Try Again!");
+				pushTurn(battle);
+			}
 	}
 }

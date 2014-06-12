@@ -4,11 +4,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import biz.plexers.sparrow.core.UpgradableShipAttribute.Choices;
 import biz.plexers.sparrow.db.Arggg;
+import biz.plexers.sparrow.db.DbHelper;
+import biz.plexers.sparrow.db.DbManager;
+import biz.plexers.sparrow.mp.Turn;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -26,8 +31,34 @@ public class Ship extends Arggg {
 		return name;
 	}
 
-	public void applyUpgrade(Upgrade upgrade) {
+	public void applyUpgrade(Upgrade upgrade) throws Exception {
+		if (!UserManager.getPirate().pay(upgrade)) {
+			throw new Exception("Insufficient resources for this upgrade!");
+		}
+		for (UpgradableShipAttribute attribute : upgradableShipAttributes
+				.values()) {
+			Choices choice = attribute.getType();
+			UpgradableShipAttribute otherAttribute = upgrade
+					.getAttribute(choice);
+			attribute.consume(otherAttribute);
+		}
 
+		DbManager.savePirate();
+
+	}
+	
+	private int availableCrew(){
+		UpgradableShipAttribute.Choices upgradableType = UpgradableShipAttribute.Choices.Crew;
+		UpgradableShipAttribute crewOnBoard = upgradableShipAttributes.get(upgradableType);
+		InBattleShipAttribute.Choices inbattleType = InBattleShipAttribute.Choices.WoundedCrew;
+		InBattleShipAttribute woundedCrew = inBattleShipAttributes.get(inbattleType);
+		return crewOnBoard.getValue() - woundedCrew.getValue();
+	}
+
+	public boolean hasEnoughCrewFor(Turn t) {
+		int crewRequirements = t.getCrewRequirements();
+		int availableCrew = this.availableCrew();
+		return crewRequirements <= availableCrew;
 	}
 
 	public double getGoldValue() {
@@ -35,19 +66,53 @@ public class Ship extends Arggg {
 	}
 
 	public void engageBattle() {
+		for(InBattleShipAttribute a: inBattleShipAttributes.values()) {
+			a.setValue(0);
+		}
+	}
 
+
+	public double getUpgradableShipAttributeValue(UpgradableShipAttribute.Choices choice){
+		return this.upgradableShipAttributes.get(choice).getValue();
+	}
+	public double getInBattleShipAttributeValue(InBattleShipAttribute.Choices choice){
+		return this.inBattleShipAttributes.get(choice).getValue();
+	}
+	
+	
+	public void changeUpgradableShipAttributeBy(UpgradableShipAttribute.Choices choice, double offset){
+		this.upgradableShipAttributes.get(choice).changeValueBy(offset);
+	}
+	public void changeInBattleShipAttributeBy(InBattleShipAttribute.Choices choice, double offset){
+		this.inBattleShipAttributes.get(choice).changeValueBy(offset);
+	}
+	
+	public double getPresentValue() {
+		// TODO Improve Calculations
+		return goldValue;
 	}
 
 	@SuppressWarnings("unchecked")
 	private Ship(Map<String, Object> props) {
 		goldValue = (double) props.get("goldValue");
 		name = (String) props.get("name");
-		upgradableShipAttributes = (HashMap<UpgradableShipAttribute.Choices,UpgradableShipAttribute>) props
-				.get("upgradableShipAttributes");
-		inBattleShipAttributes = (HashMap<InBattleShipAttribute.Choices,InBattleShipAttribute>) props
-				.get("inBattleShipAttributes");
-		standardShipAttributes = (HashMap<StandardShipAttribute.Choices,StandardShipAttribute>) props
-				.get("standardShipAttributes");
+		Object upgradableMap = props.get("upgradableShipAttributes");
+		upgradableShipAttributes = DbHelper
+				.mapAsObject(
+						upgradableMap,
+						new TypeReference<HashMap<UpgradableShipAttribute.Choices, UpgradableShipAttribute>>() {
+						});
+		Object inBattleMap = props.get("inBattleShipAttributes");
+		inBattleShipAttributes = DbHelper
+				.mapAsObject(
+						inBattleMap,
+						new TypeReference<HashMap<InBattleShipAttribute.Choices, InBattleShipAttribute>>() {
+						});
+		standardShipAttributes = DbHelper
+				.mapAsObject(
+						props.get("standardShipAttributes"),
+						new TypeReference<HashMap<StandardShipAttribute.Choices, StandardShipAttribute>>() {
+						});
 	}
 
 	@JsonCreator

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeoutException;
 
 import biz.plexers.sparrow.core.UserManager;
 import biz.plexers.sparrow.db.DbManager;
@@ -22,13 +23,12 @@ public class BattleManager {
 		return battleNames;
 	}
 
-	public static Battle choose(int battleIndex) {
+	public static Battle choose(int battleIndex) throws TimeoutException {
 		String battleName = battleNames.get(battleIndex);
 		String battleID = (String) openBattles.get(battleName);
 		Battle battle = DbManager.read(Battle.class, battleID);
-		battle.addPlayer(UserManager.getUser());
-		DbManager.save(battle);
-		return battle;
+		battle.addPlayer();
+		return battle.submitAndWait();
 	}
 
 }

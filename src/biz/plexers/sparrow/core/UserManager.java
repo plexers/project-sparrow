@@ -40,4 +40,8 @@ public class UserManager {
 	public static Player getUser() {
 		return user;
 	}
+
+	public static Ship getShip() {
+		return getPirate().getShip();
+	}
 }

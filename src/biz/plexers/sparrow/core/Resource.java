@@ -20,10 +20,6 @@ public class Resource {
 		return name;
 	}
 
-	public int getQuantity() {
-		return quantity;
-	}
-
 	private String name;
 	private int quantity;
 	private Choices type;
@@ -34,10 +30,9 @@ public class Resource {
 		this.name = type.name();
 	}
 
-	public Resource(Choices type, int quantity) {
+	public Resource(Choices choice, int quantity) {
+		this(choice);
 		this.quantity = quantity;
-		this.type = type;
-		this.name = type.name();
 	}
 
 	public enum Choices {
@@ -45,12 +40,22 @@ public class Resource {
 		Lumber, Cannons, Crew, Metal
 	}
 
-	public void changeQ(int offset) {
+	public boolean changeQ(int offset) {
 
 		if (quantity + offset >= 0) {
 			quantity += offset;
+			return true;
 		}
+		return false;
 
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public Choices getType() {
+		return type;
 	}
 
 	public void consume(Resource other) {
@@ -64,6 +69,21 @@ public class Resource {
 
 	public double getTotalPrice() {
 		return unitPrice * quantity;
+	}
+
+	public static Resource.Choices match(UpgradableShipAttribute.Choices otherC) {
+		switch (otherC) {
+		case Armor:
+			return Choices.Metal;
+		case Cannons:
+			return Choices.Cannons;
+		case Crew:
+			return Choices.Crew;
+		case Health:
+			return Choices.Lumber;
+		default:
+			return null;
+		}
 	}
 
 	private Resource(Map<String, Object> props) {
