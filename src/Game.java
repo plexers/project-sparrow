@@ -33,7 +33,7 @@ public class Game {
 
 	public static void startGame() {
 		s = new Scanner(System.in);
-		System.out.print("1. Login 2. Sign-Up :");
+		System.out.print("1. Login\n2. Sign-Up\nChoose: ");
 		int choice = Integer.parseInt(s.next(Pattern.compile("\\A[12]\\Z")));
 
 		switch (choice) {
@@ -55,7 +55,7 @@ public class Game {
 	}
 
 	private static void login() {
-		System.out.print("Enter username:");
+		System.out.print("Enter username: ");
 		String username = s.next();
 		System.out.print("Enter password: ");
 		String password = s.next();
@@ -73,7 +73,7 @@ public class Game {
 	}
 
 	private static void signUp() {
-		System.out.print("Enter username:");
+		System.out.print("Enter username: ");
 		String username = s.next();
 		System.out.print("Enter password: ");
 		String password = s.next();
@@ -93,7 +93,7 @@ public class Game {
 	}
 
 	private static void mainWindow() {
-		System.out.print("1. Single Player 2. Multiplayer :");
+		System.out.print("1. Single Player\n2. Multiplayer\nChoose: ");
 		int choice = Integer.parseInt(s.next());
 
 		switch (choice) {
@@ -143,7 +143,7 @@ public class Game {
 
 	private static void singlePlayerChoices() {
 		System.out
-				.print("1. Raid Island 2. Buy Ship  3. Buy Resources 4. Upgrade Ship :");
+				.print("1. Raid Island\n2. Buy Ship\n3. Buy Resources\n4. Upgrade Ship\nChoose: ");
 		int choice = Integer.parseInt(s.next());
 
 		switch (choice) {
@@ -255,7 +255,7 @@ public class Game {
 	private static void multiPlayer() {
 		if (UserManager.shipExists()) {
 
-			System.out.print("1. Create Battle 2. Join Battle :");
+			System.out.print("1. Create Battle\n2. Join Battle\nChoose: ");
 			int choice = Integer.parseInt(s.next());
 
 			switch (choice) {
